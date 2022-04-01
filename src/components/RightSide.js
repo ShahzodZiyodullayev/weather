@@ -77,7 +77,7 @@ function RightSide(props) {
       <Grid container>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/drop.gif")}
+            src={require("./../assets/icons/humidity.png")}
             width="60px"
             alt="img"
           />
@@ -87,7 +87,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/wind.gif")}
+            src={require("./../assets/icons/wind.png")}
             width="60px"
             alt="img"
           />
@@ -97,7 +97,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/clouds.gif")}
+            src={require("./../assets/icons/clouds.png")}
             width="60px"
             alt="img"
           />
@@ -107,7 +107,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/pressure.gif")}
+            src={require("./../assets/icons/pressure.png")}
             width="60px"
             alt="img"
           />
