@@ -134,6 +134,7 @@ function RightSide(props) {
               aria-label="basic tabs example"
               textColor="primary"
               indicatorColor="primary"
+              centered={isSm ? true : false}
             >
               <Tab
                 label={`Today`}

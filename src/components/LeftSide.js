@@ -44,7 +44,9 @@ function LeftSide(props) {
         p: { md: "60px", sm: "30px", xs: "20px 20px 40px 20px" },
         height: { md: "100vh", sm: "50vh", xs: "50vh" },
         display: "flex",
-        background: "linear-gradient(-30deg, #F88169, #F14B91)",
+        // background: "linear-gradient(-30deg, #F88169, #F14B91)",
+        background:
+          "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
         flexDirection: " column",
         justifyContent: "space-between",
         clipPath: {

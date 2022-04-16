@@ -65,7 +65,7 @@ function Hourly() {
               </Typography>
               <Typography
                 fontFamily="Comfortaa, cursive"
-                color="#F46280"
+                color="#26C785"
                 fontSize="15px"
                 lineHeight="15px"
                 width="70px"

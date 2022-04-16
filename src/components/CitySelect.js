@@ -17,7 +17,7 @@ import axios from "axios";
 export default function CitySelect(props) {
   const { select, setCurrentLocation } = props;
   const [locations, setLocations] = useState(null);
-  const [locationValue, setLocationValue] = useState();
+  const [locationValue, setLocationValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [inError, setInError] = useState(null);
@@ -35,7 +35,7 @@ export default function CitySelect(props) {
       getLocations(value);
     } else {
       setLocationValue("");
-      setVisible(false);
+      // setVisible(false);
     }
   };
 
@@ -80,7 +80,10 @@ export default function CitySelect(props) {
   return (
     <>
       <Box
-        onClick={() => setVisible(false)}
+        onClick={() => {
+          setVisible(false);
+          setLocationValue("");
+        }}
         sx={{
           visibility: visible === true ? "visible" : "hidden",
           position: "fixed",
@@ -96,7 +99,6 @@ export default function CitySelect(props) {
           sx={{
             display: "flex",
             alignItems: "flex-end",
-            pl: "10px",
             height: "36px",
             background: "white",
           }}
@@ -107,6 +109,7 @@ export default function CitySelect(props) {
             value={locationValue}
             onChange={(e) => handleChangeLocationValue(e.target.value)}
             className={styles.input}
+            style={{ visibility: visible ? "visible" : "hidden" }}
           />
           <Box
             mt="10px"
@@ -119,7 +122,15 @@ export default function CitySelect(props) {
             <X size={20} onClick={() => setVisible(false)} color="#757575" />
           </Box>
           <Box mt="7px" mr="5px">
-            <UilSearch size={20} color="#757575" />
+            <UilSearch
+              size={20}
+              color="#757575"
+              cursor="pointer"
+              onClick={() => {
+                setVisible(visible === true ? false : true);
+                setLocationValue("");
+              }}
+            />
           </Box>
         </Box>
 
@@ -127,14 +138,19 @@ export default function CitySelect(props) {
           sx={{
             position: "absolute",
             width: "100%",
-            visibility: visible === true ? "visible" : "hidden",
+            // visibility: visible === true ? "visible" : "hidden",
+            visibility:
+              locationValue === "" && visible === false
+                ? "hidden"
+                : locationValue === "" && visible === true
+                ? "hidden"
+                : "visible",
           }}
         >
           <List
-            onClick={() => setVisible(false)}
             sx={{
               borderRadius: "12px",
-              background: "linear-gradient(-30deg, #F88169, #F14B91)",
+              background: "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
               mt: "10px",
               boxShadow:
                 "0px 4px 5px 0 rgba(0,0,0,0.2), 0px 5px 15px 0 rgba(0,0,0,0.4)",
