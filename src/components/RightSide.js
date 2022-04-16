@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import CitySelect from "./CitySelect";
 import { Divider, Grid, Typography, Tabs, Tab, Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Hourly from "./Hourly";
 import Daily from "./Daily";
 import Today from "./Today";
@@ -10,8 +12,11 @@ import Today from "./Today";
 function RightSide(props) {
   const current = useSelector((state) => state.current);
   const { select, setCurrentLocation } = props;
-
   const [value, setValue] = useState(0);
+
+  const theme = useTheme();
+  const isSm = useMediaQuery(theme.breakpoints.down("sm"));
+  console.log("is sm ? ", isSm);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -29,7 +34,7 @@ function RightSide(props) {
         {...other}
       >
         {value === index && (
-          <Box sx={{ p: 3 }}>
+          <Box sx={{ p: 0 }}>
             <Typography>{children}</Typography>
           </Box>
         )}
@@ -56,7 +61,11 @@ function RightSide(props) {
       xs={12}
       sm={12}
       md={8}
-      sx={{ background: "white", height: "100vh", p: "40px 60px" }}
+      sx={{
+        background: "white",
+        height: "100vh",
+        p: { md: "40px 60px", sm: "20px 30px", xs: "10px 20px" },
+      }}
     >
       <Grid
         mb="7px"
@@ -78,7 +87,7 @@ function RightSide(props) {
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
             src={require("./../assets/icons/humidity.png")}
-            width="60px"
+            width={isSm ? "40px" : "60px"}
             alt="img"
           />
           <Typography fontFamily="Comfortaa, cursive" color="#999">
@@ -88,7 +97,7 @@ function RightSide(props) {
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
             src={require("./../assets/icons/wind.png")}
-            width="60px"
+            width={isSm ? "40px" : "60px"}
             alt="img"
           />
           <Typography fontFamily="Comfortaa, cursive" color="#999">
@@ -98,7 +107,7 @@ function RightSide(props) {
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
             src={require("./../assets/icons/clouds.png")}
-            width="60px"
+            width={isSm ? "40px" : "60px"}
             alt="img"
           />
           <Typography fontFamily="Comfortaa, cursive" color="#999">
@@ -108,7 +117,7 @@ function RightSide(props) {
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
             src={require("./../assets/icons/pressure.png")}
-            width="60px"
+            width={isSm ? "40px" : "60px"}
             alt="img"
           />
           <Typography fontFamily="Comfortaa, cursive" color="#999">
@@ -123,6 +132,8 @@ function RightSide(props) {
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
+              textColor="primary"
+              indicatorColor="primary"
             >
               <Tab
                 label={`Today`}

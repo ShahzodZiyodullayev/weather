@@ -41,12 +41,17 @@ function LeftSide(props) {
       sm={12}
       md={4}
       sx={{
-        p: "60px  ",
-        height: "100vh",
+        p: { md: "60px", sm: "30px", xs: "20px 20px 40px 20px" },
+        height: { md: "100vh", sm: "50vh", xs: "50vh" },
         display: "flex",
         background: "linear-gradient(-30deg, #F88169, #F14B91)",
         flexDirection: " column",
         justifyContent: "space-between",
+        clipPath: {
+          md: "none",
+          sm: "none",
+          xs: "polygon(0 0, 100% 0, 100% 85%, 0 100%)",
+        },
       }}
     >
       <Grid>

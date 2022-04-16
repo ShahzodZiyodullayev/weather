@@ -36,7 +36,7 @@ function Daily() {
     <Grid
       ml="5px"
       sx={{
-        height: "48vh",
+        height: { md: "52vh", sm: "57vh", xs: "62vh" },
         overflow: "auto",
         "::-webkit-scrollbar": {
           width: "3px",
