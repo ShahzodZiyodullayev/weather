@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 function Today() {
   const today = useSelector((i) => i.current);
-  console.log("today: ", today);
 
   return (
     <Grid

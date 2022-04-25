@@ -16,7 +16,6 @@ function RightSide(props) {
 
   const theme = useTheme();
   const isSm = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log("is sm ? ", isSm);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -26,7 +25,7 @@ function RightSide(props) {
     const { children, value, index, ...other } = props;
 
     return (
-      <div
+      <Grid
         role="tabpanel"
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
@@ -38,7 +37,7 @@ function RightSide(props) {
             <Typography>{children}</Typography>
           </Box>
         )}
-      </div>
+      </Grid>
     );
   }
 

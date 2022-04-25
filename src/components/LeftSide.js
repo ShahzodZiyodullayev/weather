@@ -7,8 +7,6 @@ function LeftSide(props) {
   const [currentDate, setCurrentDate] = useState();
   const current = useSelector((item) => item.current);
 
-  // console.log(current);
-
   const date = () => {
     let monthName = [
       "January",
@@ -37,6 +35,7 @@ function LeftSide(props) {
 
   return (
     <Grid
+      item
       xs={12}
       sm={12}
       md={4}
@@ -45,8 +44,7 @@ function LeftSide(props) {
         height: { md: "100vh", sm: "50vh", xs: "50vh" },
         display: "flex",
         // background: "linear-gradient(-30deg, #F88169, #F14B91)",
-        background:
-          "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
+        background: "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
         flexDirection: " column",
         justifyContent: "space-between",
         clipPath: {

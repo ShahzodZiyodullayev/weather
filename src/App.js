@@ -36,9 +36,10 @@ function App() {
           getWeatherData(e.coords.latitude, e.coords.longitude);
           axios
             .get(
-              `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.coords.longitude},${e.coords.latitude}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNrdmU3OWNsbTBwb2sydm8wdDhtNXNpcjEifQ.mCFcaq4qpndtaSXJ2OaQYw`,
+              `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.coords.longitude},${e.coords.latitude}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
             )
-            .then((e) => setCurrentLocation(e.data.features[1].place_name));
+            .then((e) => setCurrentLocation(e.data.features[1].place_name))
+            .then((e) => console.log(e));
         });
       } else {
         console.log("Geolocation is not supported by this browser.");

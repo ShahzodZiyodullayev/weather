@@ -5,8 +5,6 @@ import { useSelector } from "react-redux";
 function Daily() {
   const daily = useSelector((i) => i.daily);
 
-  console.log("daily: ", daily);
-
   let monthName = [
     "January",
     "February",
@@ -34,6 +32,7 @@ function Daily() {
 
   return (
     <Grid
+      item
       ml="5px"
       sx={{
         height: { md: "52vh", sm: "57vh", xs: "62vh" },
@@ -60,6 +59,7 @@ function Daily() {
         daily.data.length > 0 &&
         daily.data.map((item) => (
           <Grid
+            key={item.dt}
             container
             justifyContent="space-between"
             alignItems="center"

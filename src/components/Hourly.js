@@ -5,10 +5,9 @@ import { useSelector } from "react-redux";
 function Hourly() {
   const hourly = useSelector((s) => s.hourly);
 
-  console.log("hourly: ", hourly);
-
   return (
     <Grid
+      item
       ml="5px"
       sx={{
         height: { md: "52vh", sm: "57vh", xs: "62vh" },

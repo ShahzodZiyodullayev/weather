@@ -3,7 +3,7 @@ import { DebounceInput } from "react-debounce-input";
 import {
   Box,
   List,
-  IconButton,
+  Grid,
   ListItemText,
   ListItemButton,
   Typography,
@@ -45,9 +45,8 @@ export default function CitySelect(props) {
       setVisible(true);
       let res = await axios({
         method: "GET",
-        url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNrdmU3OWNsbTBwb2sydm8wdDhtNXNpcjEifQ.mCFcaq4qpndtaSXJ2OaQYw`,
+        url: `https://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
       });
-      // console.log("aaaaaaaaa: ", res.data.features);
       if (res && res.data) {
         if (res.data.features && res.data.features.length > 0) {
           let tmp = res.data.features.map((item) => {
@@ -56,7 +55,6 @@ export default function CitySelect(props) {
               coor: item.bbox,
             };
           });
-          // console.log("State: ", tmp);
           if (tmp) {
             setLocations(tmp);
           }
@@ -169,7 +167,7 @@ export default function CitySelect(props) {
                       </ListItemButton>
                     ))
                   ) : (
-                    <div
+                    <Grid
                       style={{
                         display: "flex",
                         justifyContent: "center",
@@ -177,12 +175,12 @@ export default function CitySelect(props) {
                       }}
                     >
                       No results
-                    </div>
+                    </Grid>
                   )
                 ) : (
                   <>
                     {citiesNotFound ? (
-                      <div
+                      <Grid
                         style={{
                           display: "flex",
                           justifyContent: "center",
@@ -190,9 +188,9 @@ export default function CitySelect(props) {
                         }}
                       >
                         Data not Found
-                      </div>
+                      </Grid>
                     ) : (
-                      <div
+                      <Grid
                         style={{
                           display: "flex",
                           justifyContent: "center",
@@ -200,13 +198,13 @@ export default function CitySelect(props) {
                         }}
                       >
                         {inError}
-                      </div>
+                      </Grid>
                     )}
                   </>
                 )}
               </>
             ) : (
-              <div
+              <Grid
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -214,7 +212,7 @@ export default function CitySelect(props) {
                 }}
               >
                 <CircularProgress />
-              </div>
+              </Grid>
             )}
           </List>
         </Box>
