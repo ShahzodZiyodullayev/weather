@@ -7,6 +7,9 @@ function LeftSide(props) {
   const [currentDate, setCurrentDate] = useState();
   const current = useSelector((item) => item.current);
 
+  // console.log(current.weather[0].icon);
+  // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+
   const date = () => {
     let monthName = [
       "January",
@@ -63,6 +66,11 @@ function LeftSide(props) {
         >
           {currentDate}
         </Typography>
+        <img
+          src={`http://openweathermap.org/img/wn/${
+            current && current.weather && current.weather[0].icon
+          }@2x.png`}
+        />
       </Grid>
 
       <Grid

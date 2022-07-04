@@ -17,35 +17,47 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = (lat, lon) => {
+    if (lat === undefined && lon === undefined) {
+      getLocation();
+    } else {
+      getWeatherData(lat, lon);
+    }
+  };
+
   const select = (e) => {
     fetchData((e[1] + e[3]) / 2, (e[0] + e[2]) / 2);
   };
 
-  const fetchData = (lat, lon) => {
-    let latitude;
-    let longitude;
-    if (lat === undefined && lon === undefined) {
-      getLocation();
-    } else {
-      latitude = lat;
-      longitude = lon;
-    }
-    function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((e) => {
-          getWeatherData(e.coords.latitude, e.coords.longitude);
-          axios
-            .get(
-              `https://api.mapbox.com/geocoding/v5/mapbox.places/${e.coords.longitude},${e.coords.latitude}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
-            )
-            .then((e) => setCurrentLocation(e.data.features[1].place_name))
-            .then((e) => console.log(e));
-        });
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    }
-    getWeatherData(latitude, longitude);
+  const getData = async (la, lo) => {
+    await axios
+      .get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
+      )
+      .then((e) => setCurrentLocation(e.data.features[1].place_name));
+  };
+
+  const getLocation = () => {
+    const watchPositionParams = [
+      (pos) => {
+        getData(pos.coords.latitude, pos.coords.longitude);
+        getWeatherData(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => {
+        getData(41.2981555, 69.2808155);
+        getWeatherData(41.2981555, 69.2808155);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 3000,
+        maximumAge: 0,
+      },
+    ];
+    navigator.geolocation.watchPosition(...watchPositionParams);
   };
 
   const getWeatherData = async (lat, lon) => {
@@ -60,22 +72,14 @@ function App() {
       });
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-
-  // console.log(currentWeather);
-
   return (
-    <>
+    <div>
       <Home
         select={select}
         currentLocation={currentLocation}
         setCurrentLocation={setCurrentLocation}
       />
-    </>
+    </div>
   );
 }
 
