@@ -1,0 +1,74 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
+.dailyContainer {
+  margin-left: 5px;
+  overflow: auto;
+}
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.dailyContainer:hover::-webkit-scrollbar {
+  width: 3px;
+  background-color: #e8eaed;
+}
+.dailyContainer:hover::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #c1c1c1;
+}
+.rows {
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 0;
+}
+.highLowContainer {
+  display: flex;
+  align-items: center;
+}
+.typography {
+  font-family: "Comfortaa", cursive;
+}
+.oneDaily {
+  color: #26c785;
+  line-height: 15px;
+}
+.twoDaily {
+  color: #999;
+}
+.threeDaily {
+  text-transform: capitalize;
+  color: #999;
+  text-align: right;
+}
+.fourDaily {
+  color: #26c785;
+  line-height: 15px;
+  width: 70px;
+  text-align: right;
+  margin-right: 10px;
+}
+.fiveDaily {
+  color: #999;
+  width: 70px;
+  text-align: right;
+  margin-right: 10px;
+}
+@media only screen and (min-width: 900px) {
+  .dailyContainer {
+    height: 52vh;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .dailyContainer {
+    height: 57vh;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .dailyContainer {
+    height: 62vh;
+  }
+}

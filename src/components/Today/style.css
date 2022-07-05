@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
+.todayContainer {
+  margin-left: 5px;
+  overflow: hidden;
+}
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.todayContainer:hover::-webkit-scrollbar {
+  width: 3px;
+  background-color: #e8eaed;
+}
+.todayContainer:hover::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #c1c1c1;
+}
+.row {
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 0;
+}
+.Typography {
+  font-family: "Comfortaa", cursive;
+  color: #999;
+  font-size: 15px;
+}
+.Typography2 {
+  font-family: "Comfortaa", cursive;
+  color: #999;
+  font-size: 15px;
+  text-align: right;
+  margin-right: 10px;
+}
+.UVIIndex {
+  display: flex;
+  align-items: center;
+}

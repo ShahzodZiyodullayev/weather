@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { X } from "react-feather";
 import { UilSearch } from "@iconscout/react-unicons";
-import styles from "./index.module.css";
+import "./style.css";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 
@@ -82,39 +82,19 @@ export default function CitySelect(props) {
           setVisible(false);
           setLocationValue("");
         }}
-        sx={{
-          visibility: visible === true ? "visible" : "hidden",
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          zIndex: 10,
-        }}
+        className={`searchIcon ${visible === true ? "visible" : "hidden"}`}
       ></Box>
       <Box sx={{ position: "relative", zIndex: 20 }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "flex-end",
-            height: "36px",
-            background: "white",
-          }}
-        >
+        <Box className="inputField">
           <DebounceInput
             minLength={2}
             debounceTimeout={500}
             value={locationValue}
             onChange={(e) => handleChangeLocationValue(e.target.value)}
-            className={styles.input}
-            style={{ visibility: visible ? "visible" : "hidden" }}
+            className={`input ${visible ? "visible" : "hidden"}`}
           />
           <Box
-            mt="10px"
-            sx={{
-              visibility: locationValue ? "visible" : "hidden",
-              cursor: "pointer",
-            }}
+            className={`xContainer ${locationValue ? "visible" : "hidden"}`}
             onClick={(e) => handleChangeLocationValue("")}
           >
             <X size={20} onClick={() => setVisible(false)} color="#757575" />
@@ -122,8 +102,7 @@ export default function CitySelect(props) {
           <Box mt="7px" mr="5px">
             <UilSearch
               size={20}
-              color="#757575"
-              cursor="pointer"
+              className="UilSearch"
               onClick={() => {
                 setVisible(visible === true ? false : true);
                 setLocationValue("");
@@ -133,28 +112,15 @@ export default function CitySelect(props) {
         </Box>
 
         <Box
-          sx={{
-            position: "absolute",
-            width: "100%",
-            // visibility: visible === true ? "visible" : "hidden",
-            visibility:
-              locationValue === "" && visible === false
-                ? "hidden"
-                : locationValue === "" && visible === true
-                ? "hidden"
-                : "visible",
-          }}
+          className={`autocomplateContainer ${
+            locationValue === "" && visible === false
+              ? "hidden"
+              : locationValue === "" && visible === true
+              ? "hidden"
+              : "visible"
+          }`}
         >
-          <List
-            sx={{
-              borderRadius: "12px",
-              background: "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
-              mt: "10px",
-              boxShadow:
-                "0px 4px 5px 0 rgba(0,0,0,0.2), 0px 5px 15px 0 rgba(0,0,0,0.4)",
-              overflow: "hidden",
-            }}
-          >
+          <List className="list">
             {!loading ? (
               <>
                 {locations ? (
@@ -167,50 +133,20 @@ export default function CitySelect(props) {
                       </ListItemButton>
                     ))
                   ) : (
-                    <Grid
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      No results
-                    </Grid>
+                    <Grid className="noResult">No results</Grid>
                   )
                 ) : (
                   <>
                     {citiesNotFound ? (
-                      <Grid
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        Data not Found
-                      </Grid>
+                      <Grid className="noResult">Data not Found</Grid>
                     ) : (
-                      <Grid
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        {inError}
-                      </Grid>
+                      <Grid className="noResult">{inError}</Grid>
                     )}
                   </>
                 )}
               </>
             ) : (
-              <Grid
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <Grid className="noResult">
                 <CircularProgress />
               </Grid>
             )}

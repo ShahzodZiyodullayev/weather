@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Typography } from "@mui/material";
+import { monthName } from "../../helper/date";
 
 function LeftSide(props) {
   const { currentLocation } = props;
@@ -12,20 +13,6 @@ function LeftSide(props) {
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
   const date = () => {
-    let monthName = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
     let newDate = new Date();
     let month = monthName[newDate.getMonth()];
     let day = newDate.getDate();

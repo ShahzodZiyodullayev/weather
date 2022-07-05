@@ -1,0 +1,59 @@
+.input {
+  height: 70%;
+  width: 100%;
+  border-radius: 6px;
+  padding: 0 5px;
+  border: 1px solid #999;
+  outline: none;
+  font-size: 14px;
+  font-family: Comfortaa, cursive;
+  color: #666;
+}
+.input:active {
+  border: none;
+}
+.searchIcon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
+}
+.inputField {
+  display: flex;
+  align-items: flex-end;
+  height: 36px;
+  background: white;
+}
+.xContainer {
+  cursor: pointer;
+  margin-top: 10px;
+}
+.UilSearch {
+  color: #757575;
+  cursor: pointer;
+}
+.autocomplateContainer {
+  position: absolute;
+  width: 100%;
+  padding-top: 10px;
+}
+.list {
+  border-radius: 12px;
+  background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%);
+  box-shadow: 0px 4px 5px 0 rgba(0, 0, 0, 0.2),
+    0px 5px 15px 0 rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+.noResult {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
