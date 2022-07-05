@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import LeftSide from "./LeftSide";
-import RightSide from "./RightSide";
+import LeftSide from "../LeftSide/LeftSide";
+import RightSide from "../RightSide/RightSide";
 
 function Home(props) {
   const { currentLocation, setCurrentLocation, select } = props;

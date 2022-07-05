@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import CitySelect from "./CitySelect";
+import CitySelect from "../CitySelect";
 import { Divider, Grid, Typography, Tabs, Tab, Box } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Hourly from "./Hourly";
-import Daily from "./Daily";
-import Today from "./Today";
+import Hourly from "../Hourly";
+import Daily from "../Daily";
+import Today from "../Today";
 
 function RightSide(props) {
   const current = useSelector((state) => state.current);
@@ -85,7 +85,7 @@ function RightSide(props) {
       <Grid container>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/humidity.png")}
+            src={require("./../../assets/icons/humidity.png")}
             width={isSm ? "40px" : "60px"}
             alt="img"
           />
@@ -95,7 +95,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/wind.png")}
+            src={require("./../../assets/icons/wind.png")}
             width={isSm ? "40px" : "60px"}
             alt="img"
           />
@@ -105,7 +105,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/clouds.png")}
+            src={require("./../../assets/icons/clouds.png")}
             width={isSm ? "40px" : "60px"}
             alt="img"
           />
@@ -115,7 +115,7 @@ function RightSide(props) {
         </Grid>
         <Grid item md={3} xs={3} p="20px" textAlign="center">
           <img
-            src={require("./../assets/icons/pressure.png")}
+            src={require("./../../assets/icons/pressure.png")}
             width={isSm ? "40px" : "60px"}
             alt="img"
           />

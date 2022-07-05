@@ -5,6 +5,7 @@ import { Grid, Typography } from "@mui/material";
 function LeftSide(props) {
   const { currentLocation } = props;
   const [currentDate, setCurrentDate] = useState();
+  const [time, setTime] = useState();
   const current = useSelector((item) => item.current);
 
   // console.log(current.weather[0].icon);
@@ -34,6 +35,18 @@ function LeftSide(props) {
 
   useEffect(() => {
     date();
+    const timer = setInterval(() => {
+      const t = new Date();
+      setTime(
+        `${t.getHours() < 10 ? "0" + t.getHours() : t.getHours()}:${
+          t.getMinutes() < 10 ? "0" + t.getMinutes() : t.getMinutes()
+        }:${t.getSeconds() < 10 ? "0" + t.getSeconds() : t.getSeconds()}`,
+      );
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -62,15 +75,26 @@ function LeftSide(props) {
           sx={{
             color: "white",
             fontFamily: "Comfortaa, cursive",
+            fontSize: "60px",
+            lineHeight: "60px",
+          }}
+        >
+          {time}
+        </Typography>
+        <Typography
+          sx={{
+            color: "white",
+            fontFamily: "Comfortaa, cursive",
           }}
         >
           {currentDate}
         </Typography>
-        <img
+        {/* <img
+          style={{ marginLeft: "-20px" }}
           src={`http://openweathermap.org/img/wn/${
             current && current.weather && current.weather[0].icon
           }@2x.png`}
-        />
+        /> */}
       </Grid>
 
       <Grid

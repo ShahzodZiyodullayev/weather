@@ -3,7 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 // import AppWebsiteVisits from "./AppWebsiteVisits";
 import ReactApexChart from "react-apexcharts";
-import { Swiper, SwiperSlide } from "swiper/react";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 
 function Today() {
