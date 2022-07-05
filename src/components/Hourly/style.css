@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
+.hourlyContainer {
+  margin-left: 5px;
+  overflow: auto;
+}
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.hourlyContainer:hover::-webkit-scrollbar {
+  width: 3px;
+  background-color: #e8eaed;
+}
+.hourlyContainer:hover::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: #c1c1c1;
+}
+.rows {
+  justify-content: space-between;
+  align-items: center;
+  padding: 17px 0;
+}
+.typography {
+  font-family: "Comfortaa", cursive;
+}
+.oneHourly {
+  color: #999;
+  text-align: right;
+}
+.twoHourly {
+  color: #999;
+  text-align: right;
+  text-transform: capitalize;
+}
+.threeHourly {
+  color: #26c785;
+  text-align: right;
+  line-height: 15px;
+  width: 70px;
+  margin-right: 10px;
+}
+@media only screen and (min-width: 900px) {
+  .hourlyContainer {
+    height: 52vh;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .hourlyContainer {
+    height: 57vh;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .hourlyContainer {
+    height: 62vh;
+  }
+}
