@@ -58,7 +58,7 @@ function LeftSide(props) {
       }}
     >
       <Grid>
-        <Typography
+        {/* <Typography
           sx={{
             color: "white",
             fontFamily: "Comfortaa, cursive",
@@ -67,7 +67,7 @@ function LeftSide(props) {
           }}
         >
           {time}
-        </Typography>
+        </Typography> */}
         <Typography
           sx={{
             color: "white",
