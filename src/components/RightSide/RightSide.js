@@ -8,6 +8,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Hourly from "../Hourly";
 import Daily from "../Daily";
 import Today from "../Today";
+import "./index.css";
 
 function RightSide(props) {
   const current = useSelector((state) => state.current);
@@ -56,16 +57,19 @@ function RightSide(props) {
 
   return (
     <Grid
+      className="rightSide"
       item
       xs={12}
       sm={12}
       md={8}
       sx={{
-        background: "white",
+        position: "relative",
         height: "100vh",
+        overflow: "hidden",
         p: { md: "40px 60px", sm: "20px 30px", xs: "10px 20px" },
       }}
     >
+      <Grid className="background"></Grid>
       <Grid
         mb="7px"
         sx={{

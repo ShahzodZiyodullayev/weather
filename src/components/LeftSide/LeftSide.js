@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Typography } from "@mui/material";
+import CitySelect from "../CitySelect";
 import { monthName } from "../../helper/date";
+import "./styles.css";
 
 function LeftSide(props) {
   const { currentLocation } = props;
@@ -37,27 +39,9 @@ function LeftSide(props) {
   }, []);
 
   return (
-    <Grid
-      item
-      xs={12}
-      sm={12}
-      md={4}
-      sx={{
-        p: { md: "60px", sm: "30px", xs: "20px 20px 40px 20px" },
-        height: { md: "100vh", sm: "50vh", xs: "50vh" },
-        display: "flex",
-        // background: "linear-gradient(-30deg, #F88169, #F14B91)",
-        background: "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
-        flexDirection: " column",
-        justifyContent: "space-between",
-        clipPath: {
-          md: "none",
-          sm: "none",
-          xs: "polygon(0 0, 100% 0, 100% 85%, 0 100%)",
-        },
-      }}
-    >
-      <Grid>
+    <Grid className="left-side_container" item xs md={4}>
+      {/* <Grid> */}
+        <CitySelect />
         {/* <Typography
           sx={{
             color: "white",
@@ -68,23 +52,16 @@ function LeftSide(props) {
         >
           {time}
         </Typography> */}
-        <Typography
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-          }}
-        >
-          {currentDate}
-        </Typography>
+        {/* <Typography className="current-date">{currentDate}</Typography> */}
         {/* <img
           style={{ marginLeft: "-20px" }}
           src={`http://openweathermap.org/img/wn/${
             current && current.weather && current.weather[0].icon
           }@2x.png`}
         /> */}
-      </Grid>
+      {/* </Grid> */}
 
-      <Grid
+      {/* <Grid
         sx={{
           display: "flex",
           flexDirection: "column",
@@ -135,7 +112,7 @@ function LeftSide(props) {
         >
           {current && current.weather && current.weather[0].description}
         </Typography>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

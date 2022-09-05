@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DebounceInput } from "react-debounce-input";
 import {
   Box,
@@ -13,15 +13,82 @@ import { UilSearch } from "@iconscout/react-unicons";
 import "./style.css";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import {
+  setCurrentWeather,
+  setDailyWeather,
+  setHourlyWeather,
+} from "./../../redux/actions/weatherActions";
+
+const api = {
+  key: "b60784f97169c5d1da965fb3dcf63b17",
+  baseUrl: "https://api.openweathermap.org/data/2.5/",
+};
 
 export default function CitySelect(props) {
-  const { select, setCurrentLocation } = props;
+  const [currentLocation, setCurrentLocation] = useState();
   const [locations, setLocations] = useState(null);
   const [locationValue, setLocationValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [inError, setInError] = useState(null);
   const [citiesNotFound, setCitiesNotFound] = useState(false);
+
+  const select = (e) => {
+    fetchData((e[1] + e[3]) / 2, (e[0] + e[2]) / 2);
+  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = (lat, lon) => {
+    if (lat === undefined && lon === undefined) {
+      getLocation();
+    } else {
+      getWeatherData(lat, lon);
+    }
+  };
+
+  const getData = async (la, lo) => {
+    await axios
+      .get(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
+      )
+      .then((e) => setCurrentLocation(e.data.features[1].place_name));
+  };
+
+  const getLocation = () => {
+    const watchPositionParams = [
+      (pos) => {
+        getData(pos.coords.latitude, pos.coords.longitude);
+        getWeatherData(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => {
+        getData(41.2981555, 69.2808155);
+        getWeatherData(41.2981555, 69.2808155);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 3000,
+        maximumAge: 0,
+      },
+    ];
+    navigator.geolocation.watchPosition(...watchPositionParams);
+  };
+
+  const getWeatherData = async (lat, lon) => {
+    await axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
+      )
+      .then((e) => {
+        dispatch(setCurrentWeather(e.data.current));
+        dispatch(setDailyWeather(e.data.daily));
+        dispatch(setHourlyWeather(e.data.hourly));
+      });
+  };
 
   const click = (e) => {
     select(e.coor);
@@ -35,7 +102,6 @@ export default function CitySelect(props) {
       getLocations(value);
     } else {
       setLocationValue("");
-      // setVisible(false);
     }
   };
 
@@ -71,12 +137,11 @@ export default function CitySelect(props) {
       if (err.message === "Network Error") {
         setInError(err.message);
       }
-      // log("error", err.message);
     }
   };
 
   return (
-    <>
+    <Grid className="cont">
       <Box
         onClick={() => {
           setVisible(false);
@@ -84,14 +149,16 @@ export default function CitySelect(props) {
         }}
         className={`searchIcon ${visible === true ? "visible" : "hidden"}`}
       ></Box>
-      <Box sx={{ position: "relative", zIndex: 20 }}>
+      <Box className="input_container">
         <Box className="inputField">
           <DebounceInput
+            placeholder="Search..."
             minLength={2}
             debounceTimeout={500}
             value={locationValue}
             onChange={(e) => handleChangeLocationValue(e.target.value)}
-            className={`input ${visible ? "visible" : "hidden"}`}
+            className="input"
+            // className={`input ${visible ? "visible" : "hidden"}`}
           />
           <Box
             className={`xContainer ${locationValue ? "visible" : "hidden"}`}
@@ -99,12 +166,11 @@ export default function CitySelect(props) {
           >
             <X size={20} onClick={() => setVisible(false)} color="#757575" />
           </Box>
-          <Box mt="7px" mr="5px">
+          <Box className="UilSearch">
             <UilSearch
-              size={20}
-              className="UilSearch"
+              size={30}
               onClick={() => {
-                setVisible(visible === true ? false : true);
+                // setVisible(visible === true ? false : true);
                 setLocationValue("");
               }}
             />
@@ -153,6 +219,6 @@ export default function CitySelect(props) {
           </List>
         </Box>
       </Box>
-    </>
+    </Grid>
   );
 }
