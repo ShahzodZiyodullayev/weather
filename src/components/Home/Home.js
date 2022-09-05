@@ -9,7 +9,7 @@ function Home(props) {
   return (
     <Grid container>
       <LeftSide currentLocation={currentLocation} />
-      <RightSide select={select} setCurrentLocation={setCurrentLocation} />
+      {/* <RightSide select={select} setCurrentLocation={setCurrentLocation} /> */}
     </Grid>
   );
 }
