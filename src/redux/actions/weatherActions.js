@@ -20,3 +20,10 @@ export const setHourlyWeather = (data) => {
     payload: { data },
   };
 };
+
+export const setCurrentLocation = (data) => {
+  return {
+    type: ActionType.setCurrentLocation,
+    payload: { data },
+  };
+};

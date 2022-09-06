@@ -18,6 +18,7 @@ import {
   setCurrentWeather,
   setDailyWeather,
   setHourlyWeather,
+  setCurrentLocation,
 } from "./../../redux/actions/weatherActions";
 
 const api = {
@@ -26,7 +27,7 @@ const api = {
 };
 
 export default function CitySelect(props) {
-  const [currentLocation, setCurrentLocation] = useState();
+  // const [currentLocation, setCurrentLocation] = useState();
   const [locations, setLocations] = useState(null);
   const [locationValue, setLocationValue] = useState("");
   const [visible, setVisible] = useState(false);
@@ -56,7 +57,7 @@ export default function CitySelect(props) {
       .get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
       )
-      .then((e) => setCurrentLocation(e.data.features[1].place_name));
+      .then((e) => dispatch(setCurrentLocation(e.data.features[1].place_name)))
   };
 
   const getLocation = () => {
@@ -93,7 +94,7 @@ export default function CitySelect(props) {
   const click = (e) => {
     select(e.coor);
     setLocationValue(e.label);
-    setCurrentLocation(e.label);
+    dispatch(setCurrentLocation(e.label));
   };
 
   const handleChangeLocationValue = (value) => {
@@ -168,7 +169,7 @@ export default function CitySelect(props) {
           </Box>
           <Box className="UilSearch">
             <UilSearch
-              size={30}
+              size={23}
               onClick={() => {
                 // setVisible(visible === true ? false : true);
                 setLocationValue("");
@@ -194,7 +195,9 @@ export default function CitySelect(props) {
                     locations.map((item, i) => (
                       <ListItemButton key={i} sx={{ height: "35px" }}>
                         <ListItemText onClick={() => click(item)}>
-                          <Typography noWrap>{item.label}</Typography>
+                          <Typography sx={{ fontFamily: "Comfortaa" }} noWrap>
+                            {item.label}
+                          </Typography>
                         </ListItemText>
                       </ListItemButton>
                     ))

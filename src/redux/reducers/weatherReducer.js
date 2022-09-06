@@ -30,3 +30,12 @@ export const hourlyWeatherReducer = (state = [], { type, payload }) => {
       return state;
   }
 };
+
+export const currentLocation = (state = [], { type, payload }) => {
+  switch (type) {
+    case ActionType.setCurrentLocation:
+      return { ...state, ...payload };
+    default:
+      return state;
+  }
+};
