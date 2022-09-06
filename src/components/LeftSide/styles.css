@@ -1,15 +1,67 @@
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
 .left-side_container {
   height: 100vh;
   display: flex;
   background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%);
-  flex-direction: column;
   justify-content: space-between;
 }
 .current-date {
   color: white;
   font-family: "Comfortaa", cursive;
+}
+.tools_bar {
+  height: 40px;
+  display: flex;
+}
+.temperature {
+  justify-content: flex-end;
+}
+.temperature_round {
+  position: relative;
+  font-size: 70px;
+  margin-top: -60px;
+}
+.temperature_value {
+  display: flex;
+  font-size: 170px;
+  line-height: 170px;
+  color: white;
+  font-family: "Comfortaa", cursive;
+}
+.current_location {
+  color: white;
+  font-family: "Comfortaa", cursive;
+  font-size: 25px;
+  line-height: 20px;
+}
+.temperature_description {
+  color: white;
+  font-family: "Comfortaa", cursive;
+  font-size: 15px;
+  line-height: 12px;
+  text-transform: capitalize;
+}
+.sunrise_and_sunset {
+  width: 100%;
+  height: 120px;
+  /* border: 1px solid; */
+  border-radius: 10px;
+}
+.sunrise_and_sunset_left {
+  padding: 10px;
+  border: 1px solid;
+  height: 100%;
+}
+.sunrise_and_sunset_right {
+  padding: 10px;
+  border: 1px solid;
+  height: 100%;
 }
 
 @media only screen and (min-width: 1600px) {

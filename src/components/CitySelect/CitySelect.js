@@ -18,15 +18,16 @@ import {
   setCurrentWeather,
   setDailyWeather,
   setHourlyWeather,
+  setCurrentLocation,
 } from "./../../redux/actions/weatherActions";
 
 const api = {
-  key: "b60784f97169c5d1da965fb3dcf63b17",
-  baseUrl: "https://api.openweathermap.org/data/2.5/",
+  key: "66e35080c679341620d25e99894dea45",
+  baseUrl: "https://api.openweathermap.org/data/3.0/",
 };
 
 export default function CitySelect(props) {
-  const [currentLocation, setCurrentLocation] = useState();
+  // const [currentLocation, setCurrentLocation] = useState();
   const [locations, setLocations] = useState(null);
   const [locationValue, setLocationValue] = useState("");
   const [visible, setVisible] = useState(false);
@@ -56,7 +57,7 @@ export default function CitySelect(props) {
       .get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
       )
-      .then((e) => setCurrentLocation(e.data.features[1].place_name));
+      .then((e) => dispatch(setCurrentLocation(e.data.features[1].place_name)))
   };
 
   const getLocation = () => {
@@ -81,7 +82,7 @@ export default function CitySelect(props) {
   const getWeatherData = async (lat, lon) => {
     await axios
       .get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
+        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
       )
       .then((e) => {
         dispatch(setCurrentWeather(e.data.current));
@@ -93,7 +94,7 @@ export default function CitySelect(props) {
   const click = (e) => {
     select(e.coor);
     setLocationValue(e.label);
-    setCurrentLocation(e.label);
+    dispatch(setCurrentLocation(e.label));
   };
 
   const handleChangeLocationValue = (value) => {
@@ -168,7 +169,7 @@ export default function CitySelect(props) {
           </Box>
           <Box className="UilSearch">
             <UilSearch
-              size={30}
+              size={23}
               onClick={() => {
                 // setVisible(visible === true ? false : true);
                 setLocationValue("");
@@ -194,7 +195,9 @@ export default function CitySelect(props) {
                     locations.map((item, i) => (
                       <ListItemButton key={i} sx={{ height: "35px" }}>
                         <ListItemText onClick={() => click(item)}>
-                          <Typography noWrap>{item.label}</Typography>
+                          <Typography sx={{ fontFamily: "Comfortaa" }} noWrap>
+                            {item.label}
+                          </Typography>
                         </ListItemText>
                       </ListItemButton>
                     ))

@@ -1,9 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
 .cont {
   width: 100%;
 }
 
 .input_container {
-  height: 36px;
+  height: 100%;
   position: relative;
   z-index: 20;
 }
@@ -16,7 +18,7 @@
   box-sizing: border-box;
   outline: none;
   font-size: 20px;
-  font-family: Comfortaa, cursive;
+  font-family: "Comfortaa", cursive;
   color: #666;
 }
 .input:active {
