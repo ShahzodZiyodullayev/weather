@@ -4,6 +4,14 @@ import { Grid, Typography, Avatar, Stack } from "@mui/material";
 import CitySelect from "../CitySelect";
 import { monthName } from "../../helper/date";
 import { UilBell } from "@iconscout/react-unicons";
+import {
+  WiHorizonAlt,
+  WiHorizon,
+  WiHumidity,
+  WiBarometer,
+  WiStrongWind,
+  WiWindDeg,
+} from "react-icons/wi";
 import "./styles.css";
 
 function LeftSide(props) {
@@ -13,7 +21,7 @@ function LeftSide(props) {
   const current = useSelector((item) => item.current);
   const currentLocation = useSelector((item) => item.location);
 
-  // console.log("✅ ", currentLocation);
+  console.log("✅ ", current);
 
   // console.log(current.weather[0].icon);
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
@@ -74,19 +82,16 @@ function LeftSide(props) {
       <Grid container className="sunrise_and_sunset">
         <Grid item container md className="sunrise_and_sunset_left">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/sun.png"
-            />
+            <WiHorizonAlt size={50} color="white" />
           </Grid>
-          <Grid md>Two</Grid>
+          <Grid md>
+            <Typography>Sunrise</Typography>
+            <Typography>4:40</Typography>
+          </Grid>
         </Grid>
         <Grid item container md className="sunrise_and_sunset_right">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/moon.png"
-            />
+            <WiHorizon size={50} color="white" />
           </Grid>
           <Grid md>Two</Grid>
         </Grid>
@@ -94,19 +99,13 @@ function LeftSide(props) {
       <Grid container className="sunrise_and_sunset">
         <Grid item container md className="sunrise_and_sunset_left">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/water.png"
-            />
+            <WiHumidity size={50} color="white" />
           </Grid>
           <Grid md>Two</Grid>
         </Grid>
         <Grid item container md className="sunrise_and_sunset_right">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/thermometer-automation.png"
-            />
+            <WiBarometer size={50} color="white" />
           </Grid>
           <Grid md>Two</Grid>
         </Grid>
@@ -114,19 +113,13 @@ function LeftSide(props) {
       <Grid container className="sunrise_and_sunset">
         <Grid item container md className="sunrise_and_sunset_left">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/wind.png"
-            />
+            <WiStrongWind size={50} color="white" />
           </Grid>
           <Grid md>Two</Grid>
         </Grid>
         <Grid item container md className="sunrise_and_sunset_right">
           <Grid md>
-            <img
-              width="48px"
-              src="https://img.icons8.com/fluency/96/000000/water-wind-turbine.png"
-            />
+            <WiWindDeg size={50} color="white" />
           </Grid>
           <Grid md>Two</Grid>
         </Grid>

@@ -55,12 +55,12 @@
 }
 .sunrise_and_sunset_left {
   padding: 10px;
-  /* border: 1px solid; */
+  border: 1px solid;
   height: 100%;
 }
 .sunrise_and_sunset_right {
   padding: 10px;
-  /* border: 1px solid; */
+  border: 1px solid;
   height: 100%;
 }
 
