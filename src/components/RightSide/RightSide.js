@@ -8,11 +8,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Hourly from "../Hourly";
 import Daily from "../Daily";
 import Today from "../Today";
+import ReactApexChart from "react-apexcharts";
 import "./index.css";
 
 function RightSide(props) {
-  const current = useSelector((state) => state.current);
-  const { select, setCurrentLocation } = props;
+  const daily = useSelector((state) => state.daily);
   const [value, setValue] = useState(0);
 
   const theme = useTheme();
@@ -55,130 +55,230 @@ function RightSide(props) {
     };
   }
 
+  let series;
+  let gradientColors;
+  if (daily?.data) {
+    series = [
+      {
+        name: "yuqori",
+        data: daily.data.map((e) => Math.round(e.temp.day - 273.15)),
+      },
+      {
+        name: "past",
+        data: daily.data.map((e) => Math.round(e.temp.night - 273.15)),
+      },
+    ];
+    gradientColors = [
+      daily.data.map((e, i) => {
+        return {
+          offset: i * 12.5,
+          color: Math.round(e.temp.day - 273.15) > 30 ? "#FFDCE5" : "#FFF0FA",
+          opacity: 1,
+        };
+      }),
+      daily.data.map((e, i) => {
+        return {
+          offset: i * 12.5,
+          color: Math.round(e.temp.night - 273.15) < 15 ? "#B4FFFF" : "#E6FFFF",
+          opacity: 1,
+        };
+      }),
+    ];
+  } else {
+    series = [];
+    gradientColors = [];
+  }
+
+  let options = {
+    colors: ["#EB656F", "#61DBC3"],
+    chart: {
+      type: "candlestick",
+      height: 350,
+      toolbar: { show: false },
+      zoom: { enabled: false },
+    },
+    fill: {
+      shade: "light",
+      type: "gradient",
+      gradient: {
+        type: "horizontal",
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.9,
+        colorStops: gradientColors,
+      },
+    },
+    dataLabels: {
+      offsetX: 0,
+      offsetY: -5,
+      formatter: (val) => val + "°",
+      background: {
+        enabled: false,
+      },
+      style: {
+        fontSize: "14px",
+        fontFamily: '"Comfortaa", cursive',
+      },
+    },
+    legend: {
+      show: false,
+    },
+    xaxis: {
+      type: "category",
+      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      tickPlacement: "on",
+      labels: {
+        show: true,
+      },
+      axisBorder: {
+        show: false,
+      },
+    },
+    tooltip: {
+      enabled: false,
+    },
+    yaxis: {
+      labels: { show: false },
+    },
+    stroke: { show: false },
+    grid: {
+      show: false,
+    },
+  };
+
   return (
-    <Grid
-      className="rightSide"
-      item
-      xs={12}
-      sm={12}
-      md={8}
-      sx={{
-        position: "relative",
-        height: "100vh",
-        overflow: "hidden",
-        p: { md: "40px 60px", sm: "20px 30px", xs: "10px 20px" },
-      }}
-    >
-      <Grid className="background"></Grid>
-      <Grid
-        mb="7px"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-        }}
-      >
-        <Typography sx={{ fontFamily: "Comfortaa, cursive", color: "#666" }}>
-          Statistics
-        </Typography>
-        <CitySelect select={select} setCurrentLocation={setCurrentLocation} />
-      </Grid>
-      <Grid>
-        <Divider />
-      </Grid>
-      <Grid container>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/humidity.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.humidity} %
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/wind.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && Math.round(current.wind_speed)} m/s
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/clouds.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.clouds} %
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/pressure.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.pressure} hPa
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid overflow="hidden">
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-              textColor="primary"
-              indicatorColor="primary"
-              centered={isSm ? true : false}
-            >
-              <Tab
-                label={`Today`}
-                {...a11yProps(0)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
-              />
-              <Tab
-                label={`Hourly`}
-                {...a11yProps(1)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
-              />
-              <Tab
-                label={`Daily`}
-                {...a11yProps(2)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
-              />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            <Today />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Hourly />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Daily />
-          </TabPanel>
-        </Box>
-      </Grid>
+    // <Grid
+    //   className="rightSide"
+    //   item
+    //   xs={12}
+    //   sm={12}
+    //   md={8}
+    //   sx={{
+    //     position: "relative",
+    //     height: "100vh",
+    //     overflow: "hidden",
+    //     p: { md: "40px 60px", sm: "20px 30px", xs: "10px 20px" },
+    //   }}
+    // >
+    //   <Grid className="background"></Grid>
+    //   <Grid
+    //     mb="7px"
+    //     sx={{
+    //       display: "flex",
+    //       justifyContent: "space-between",
+    //       alignItems: "flex-end",
+    //     }}
+    //   >
+    //     <Typography sx={{ fontFamily: "Comfortaa, cursive", color: "#666" }}>
+    //       Statistics
+    //     </Typography>
+    //     <CitySelect select={select} setCurrentLocation={setCurrentLocation} />
+    //   </Grid>
+    //   <Grid>
+    //     <Divider />
+    //   </Grid>
+    //   <Grid container>
+    //     <Grid item md={3} xs={3} p="20px" textAlign="center">
+    //       <img
+    //         src={require("./../../assets/icons/humidity.png")}
+    //         width={isSm ? "40px" : "60px"}
+    //         alt="img"
+    //       />
+    //       <Typography fontFamily="Comfortaa, cursive" color="#999">
+    //         {current && current.humidity} %
+    //       </Typography>
+    //     </Grid>
+    //     <Grid item md={3} xs={3} p="20px" textAlign="center">
+    //       <img
+    //         src={require("./../../assets/icons/wind.png")}
+    //         width={isSm ? "40px" : "60px"}
+    //         alt="img"
+    //       />
+    //       <Typography fontFamily="Comfortaa, cursive" color="#999">
+    //         {current && Math.round(current.wind_speed)} m/s
+    //       </Typography>
+    //     </Grid>
+    //     <Grid item md={3} xs={3} p="20px" textAlign="center">
+    //       <img
+    //         src={require("./../../assets/icons/clouds.png")}
+    //         width={isSm ? "40px" : "60px"}
+    //         alt="img"
+    //       />
+    //       <Typography fontFamily="Comfortaa, cursive" color="#999">
+    //         {current && current.clouds} %
+    //       </Typography>
+    //     </Grid>
+    //     <Grid item md={3} xs={3} p="20px" textAlign="center">
+    //       <img
+    //         src={require("./../../assets/icons/pressure.png")}
+    //         width={isSm ? "40px" : "60px"}
+    //         alt="img"
+    //       />
+    //       <Typography fontFamily="Comfortaa, cursive" color="#999">
+    //         {current && current.pressure} hPa
+    //       </Typography>
+    //     </Grid>
+    //   </Grid>
+    //   <Grid overflow="hidden">
+    //     <Box sx={{ width: "100%" }}>
+    //       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+    //         <Tabs
+    //           value={value}
+    //           onChange={handleChange}
+    //           aria-label="basic tabs example"
+    //           textColor="primary"
+    //           indicatorColor="primary"
+    //           centered={isSm ? true : false}
+    //         >
+    //           <Tab
+    //             label={`Today`}
+    //             {...a11yProps(0)}
+    //             sx={{
+    //               fontFamily: "Comfortaa, cursive",
+    //               textTransform: "capitalize",
+    //               p: 0,
+    //             }}
+    //           />
+    //           <Tab
+    //             label={`Hourly`}
+    //             {...a11yProps(1)}
+    //             sx={{
+    //               fontFamily: "Comfortaa, cursive",
+    //               textTransform: "capitalize",
+    //               p: 0,
+    //             }}
+    //           />
+    //           <Tab
+    //             label={`Daily`}
+    //             {...a11yProps(2)}
+    //             sx={{
+    //               fontFamily: "Comfortaa, cursive",
+    //               textTransform: "capitalize",
+    //               p: 0,
+    //             }}
+    //           />
+    //         </Tabs>
+    //       </Box>
+    //       <TabPanel value={value} index={0}>
+    //         <Today />
+    //       </TabPanel>
+    //       <TabPanel value={value} index={1}>
+    //         <Hourly />
+    //       </TabPanel>
+    //       <TabPanel value={value} index={2}>
+    //         <Daily />
+    //       </TabPanel>
+    //     </Box>
+    //   </Grid>
+    // </Grid>
+    <Grid xs md={8}>
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="area"
+        width={1200}
+        height={200}
+      />
     </Grid>
   );
 }

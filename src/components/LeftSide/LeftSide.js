@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Grid, Typography, Avatar, Stack } from "@mui/material";
 import CitySelect from "../CitySelect";
-import { monthName } from "../../helper/date";
+import InfoCard from "./InfoCard/InfoCard";
 import { UilBell } from "@iconscout/react-unicons";
 import {
   WiHorizonAlt,
@@ -15,42 +15,92 @@ import {
 import "./styles.css";
 
 function LeftSide(props) {
-  // const { currentLocation } = props;
-  const [currentDate, setCurrentDate] = useState();
-  const [time, setTime] = useState();
+  const [InfoCardDataList, setInfoCardDataList] = useState(null);
   const current = useSelector((item) => item.current);
   const currentLocation = useSelector((item) => item.location);
-
-  console.log("✅ ", current);
 
   // console.log(current.weather[0].icon);
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
-  const date = () => {
-    let newDate = new Date();
-    let month = monthName[newDate.getMonth()];
-    let day = newDate.getDate();
-    let year = newDate.getFullYear();
-    setCurrentDate(`${month} ${day}, ${year}`);
+  // const date = () => {
+  //   let newDate = new Date();
+  //   let month = monthName[newDate.getMonth()];
+  //   let day = newDate.getDate();
+  //   let year = newDate.getFullYear();
+  //   setCurrentDate(`${month} ${day}, ${year}`);
+  // };
+
+  // let InfoCardDataList = null;
+
+  const getTimefromUnix = (arg) => {
+    const date = new Date(arg * 1000);
+    return date.getHours() + ":" + date.getMinutes();
+  };
+
+  const setInfoData = () => {
+    if (
+      current &&
+      current.sunrise &&
+      current.sunset &&
+      current.humidity &&
+      current.pressure &&
+      current.wind_deg &&
+      current.wind_speed
+    ) {
+      setInfoCardDataList([
+        {
+          name: "Sunrise",
+          icon: <WiHorizonAlt size={50} color="white" />,
+          value: getTimefromUnix(current.sunrise),
+        },
+        {
+          name: "Sunset",
+          icon: <WiHorizon size={50} color="white" />,
+          value: getTimefromUnix(current.sunset),
+        },
+        {
+          name: "Humidity",
+          icon: <WiHumidity size={50} color="white" />,
+          value: current.humidity + "%",
+        },
+        {
+          name: "Pressure",
+          icon: <WiBarometer size={50} color="white" />,
+          value: current.pressure + "mb",
+        },
+        {
+          name: "Wind Speed",
+          icon: <WiStrongWind size={50} color="white" />,
+          value: current.wind_speed + "m/s",
+        },
+        {
+          name: "Wind degree",
+          icon: (
+            <WiWindDeg
+              size={50}
+              color="white"
+              style={{ transform: `rotate(${current.wind_deg}deg)` }}
+            />
+          ),
+          value: current.wind_deg + "°",
+        },
+      ]);
+    }
   };
 
   useEffect(() => {
-    // date();
-    // const timer = setInterval(() => {
-    //   const t = new Date();
-    //   setTime(
-    //     `${t.getHours() < 10 ? "0" + t.getHours() : t.getHours()}:${
-    //       t.getMinutes() < 10 ? "0" + t.getMinutes() : t.getMinutes()
-    //     }:${t.getSeconds() < 10 ? "0" + t.getSeconds() : t.getSeconds()}`,
-    //   );
-    // }, 1000);
-    // return () => {
-    //   clearInterval(timer);
-    // };
-  }, []);
+    setInfoData();
+  }, [current]);
 
   return (
-    <Grid className="left-side_container" direction="column" item xs md={4}>
+    <Grid
+      container
+      className="left-side_container"
+      direction="column"
+      item
+      xs
+      md={4}
+    >
       <Grid className="tools_bar">
         <CitySelect />
         <Stack direction="row" spacing={2} ml={2}>
@@ -66,64 +116,17 @@ function LeftSide(props) {
             sx={{ borderRadius: "10px" }}
           />
         </Stack>
-        {/* <Typography
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-            fontSize: "60px",
-            lineHeight: "60px",
-          }}
-        >
-          {time}
-        </Typography> */}
-        {/* <Typography className="current-date">{currentDate}</Typography> */}
       </Grid>
 
-      <Grid container className="sunrise_and_sunset">
-        <Grid item container md className="sunrise_and_sunset_left">
-          <Grid md>
-            <WiHorizonAlt size={50} color="white" />
-          </Grid>
-          <Grid md>
-            <Typography>Sunrise</Typography>
-            <Typography>4:40</Typography>
+      {InfoCardDataList !== null && (
+        <Grid>
+          <Grid container className="sunrise_and_sunset">
+            {InfoCardDataList.map((i, ind) => (
+              <InfoCard key={ind} icon={i.icon} name={i.name} value={i.value} />
+            ))}
           </Grid>
         </Grid>
-        <Grid item container md className="sunrise_and_sunset_right">
-          <Grid md>
-            <WiHorizon size={50} color="white" />
-          </Grid>
-          <Grid md>Two</Grid>
-        </Grid>
-      </Grid>
-      <Grid container className="sunrise_and_sunset">
-        <Grid item container md className="sunrise_and_sunset_left">
-          <Grid md>
-            <WiHumidity size={50} color="white" />
-          </Grid>
-          <Grid md>Two</Grid>
-        </Grid>
-        <Grid item container md className="sunrise_and_sunset_right">
-          <Grid md>
-            <WiBarometer size={50} color="white" />
-          </Grid>
-          <Grid md>Two</Grid>
-        </Grid>
-      </Grid>
-      <Grid container className="sunrise_and_sunset">
-        <Grid item container md className="sunrise_and_sunset_left">
-          <Grid md>
-            <WiStrongWind size={50} color="white" />
-          </Grid>
-          <Grid md>Two</Grid>
-        </Grid>
-        <Grid item container md className="sunrise_and_sunset_right">
-          <Grid md>
-            <WiWindDeg size={50} color="white" />
-          </Grid>
-          <Grid md>Two</Grid>
-        </Grid>
-      </Grid>
+      )}
 
       {current && current.temp && (
         <Grid className="temperature">

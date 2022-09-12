@@ -48,20 +48,15 @@
   text-transform: capitalize;
 }
 .sunrise_and_sunset {
-  width: 100%;
-  height: 120px;
-  /* border: 1px solid; */
   border-radius: 10px;
 }
-.sunrise_and_sunset_left {
-  padding: 10px;
-  border: 1px solid;
-  height: 100%;
+.weather-property_title {
+  font-family: "Comfortaa", cursive;
+  color: white;
 }
-.sunrise_and_sunset_right {
-  padding: 10px;
-  border: 1px solid;
-  height: 100%;
+.weather-property_value {
+  font-family: "Comfortaa", cursive;
+  color: white;
 }
 
 @media only screen and (min-width: 1600px) {

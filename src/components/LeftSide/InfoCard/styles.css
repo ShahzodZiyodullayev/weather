@@ -1,0 +1,20 @@
+.sunrise_and_sunset_left {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+}
+.weather-property_title {
+  font-family: "Comfortaa", cursive;
+  color: white;
+}
+.weather-property_value {
+  font-family: "Comfortaa", cursive;
+  color: white;
+}
+
+@media only screen and (max-height: 757px) {
+  .sunrise_and_sunset_left {
+    width: 50%;
+  }
+}

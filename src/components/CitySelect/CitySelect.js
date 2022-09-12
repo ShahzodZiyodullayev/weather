@@ -22,7 +22,7 @@ import {
 } from "./../../redux/actions/weatherActions";
 
 const api = {
-  key: "66e35080c679341620d25e99894dea45",
+  key: "84ada803766b939df1d02655a56b5a20",
   baseUrl: "https://api.openweathermap.org/data/3.0/",
 };
 
@@ -82,7 +82,7 @@ export default function CitySelect(props) {
   const getWeatherData = async (lat, lon) => {
     await axios
       .get(
-        `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
       )
       .then((e) => {
         dispatch(setCurrentWeather(e.data.current));
