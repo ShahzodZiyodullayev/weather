@@ -1,14 +1,20 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import "./styles.css";
 
-function InfoCard({icon}) {
+function InfoCard({ icon, name, value }) {
   return (
-    <Grid item container md className="sunrise_and_sunset_left">
-      <Grid md>
-        {icon}
-        {/* <WiHorizonAlt size={50} color="white" /> */}
+    <Grid className="sunrise_and_sunset_left">
+      <Grid>{icon}</Grid>
+      <Grid ml={1}>
+        <Typography variant="body" className="weather-property_title">
+          {name}
+        </Typography>
+        <br />
+        <Typography variant="body" className="weather-property_value">
+          {value}
+        </Typography>
       </Grid>
-      <Grid md>Two</Grid>
     </Grid>
   );
 }
