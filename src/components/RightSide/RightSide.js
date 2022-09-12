@@ -72,15 +72,15 @@ function RightSide(props) {
       daily.data.map((e, i) => {
         return {
           offset: i * 12.5,
-          color: Math.round(e.temp.day - 273.15) > 30 ? "#FFDCE5" : "#FFF0FA",
-          opacity: 1,
+          color: Math.round(e.temp.day - 273.15) > 25 ? "#FFDCE5" : "#FFF0FA",
+          opacity: 0.7,
         };
       }),
       daily.data.map((e, i) => {
         return {
           offset: i * 12.5,
-          color: Math.round(e.temp.night - 273.15) < 15 ? "#B4FFFF" : "#E6FFFF",
-          opacity: 1,
+          color: Math.round(e.temp.night - 273.15) < 15 ? "#57ffff" : "#B4FFFF",
+          opacity: 0.5,
         };
       }),
     ];
@@ -90,7 +90,7 @@ function RightSide(props) {
   }
 
   let options = {
-    colors: ["#EB656F", "#61DBC3"],
+    colors: ["#000000"],
     chart: {
       type: "candlestick",
       height: 350,
@@ -125,7 +125,10 @@ function RightSide(props) {
     },
     xaxis: {
       type: "category",
-      categories: [1, 2, 3, 4, 5, 6, 7, 8],
+      categories: ["sept", "oct", "nov", "dec", "jan", "feb", "march", "apr"],
+      axisTicks: {
+        show: false,
+      },
       tickPlacement: "on",
       labels: {
         show: true,
@@ -272,13 +275,14 @@ function RightSide(props) {
     //   </Grid>
     // </Grid>
     <Grid xs md={8}>
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="area"
-        width={1200}
-        height={200}
-      />
+      <Grid sx={{ justifyContent: "center", paddingRight: "10px" }}>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="area"
+          height={300}
+        />
+      </Grid>
     </Grid>
   );
 }
