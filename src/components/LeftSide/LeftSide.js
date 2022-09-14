@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Typography, Avatar, Stack, Paper, Grid } from "@mui/material";
 import CitySelect from "../CitySelect";
-import InfoCard from "./InfoCard/InfoCard";
+import InfoCard from "../InfoCard/InfoCard";
 import { UilBell } from "@iconscout/react-unicons";
 import {
   WiHorizonAlt,

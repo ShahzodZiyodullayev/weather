@@ -2,7 +2,7 @@
   display: flex;
   width: 100%;
   padding: 10px;
-  height: 100%;
+  height: max-content;
 }
 .weather-property_title {
   font-family: "Comfortaa", cursive;
@@ -10,7 +10,7 @@
 }
 .weather-property_value {
   font-family: "Comfortaa", cursive;
-  color: white;
+  color: rgb(175, 15, 15);
 }
 
 @media only screen and (max-height: 757px) {

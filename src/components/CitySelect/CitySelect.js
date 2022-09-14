@@ -22,7 +22,7 @@ import {
 } from "./../../redux/actions/weatherActions";
 
 const api = {
-  key: "3ffe9a1cd7c6597ff383f1b791756a4b",
+  key: "b60784f97169c5d1da965fb3dcf63b17",
   baseUrl: "https://api.openweathermap.org/data/3.0/",
 };
 
