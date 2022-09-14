@@ -1,72 +1,111 @@
-export const options = {
-  chart: {
-    toolbar: { show: false },
-    zoom: { enabled: false },
-  },
-  dataLabels: { enabled: false },
-  stroke: {
-    width: 3,
-    curve: "smooth",
-    lineCap: "round",
-  },
-  xaxis: {
-    categories: [],
-    labels: {
-      offsetX: 4,
+import { shortMonthName } from "./date";
+
+export const series = (e) => {
+  let seriesData;
+  if (e?.data) {
+    seriesData = [
+      {
+        name: "yuqori",
+        data: e.data.map((e) => Math.round(e.temp.day - 273.15)),
+      },
+      {
+        name: "past",
+        data: e.data.map((e) => Math.round(e.temp.night - 273.15)),
+      },
+    ];
+  } else {
+    seriesData = [];
+  }
+  return seriesData;
+};
+
+export const xaxisCategories = (e) => {
+  let xaxisCategoriesData;
+  if (e?.data) {
+    xaxisCategoriesData = e.data.map((e) => {
+      let date = new Date(e.dt * 1000);
+      return `${date.getDate()} ${shortMonthName[date.getMonth()]}`;
+    });
+  } else {
+    xaxisCategoriesData = [];
+  }
+  return xaxisCategoriesData;
+};
+
+export const options = (callback) => {
+  return {
+    colors: ["#000"],
+    chart: {
+      type: "candlestick",
+      height: 350,
+      toolbar: { show: false },
+      zoom: { enabled: false },
+    },
+    markers: {
+      size: 2,
+      strokeWidth: 0,
+      shape: "circle",
+      radius: 2,
+    },
+    stroke: {
       show: true,
-      format: "dd",
-      formatter: function (value) {
-        return value + " July";
+      curve: "smooth",
+      lineCap: "butt",
+      colors: ["#FFB3AA", "#6FECFF"],
+      width: 1,
+      dashArray: 0,
+    },
+    fill: {
+      colors: ["rgba(255, 100, 100, 1)", "#00A4FF"],
+      shade: "light",
+      type: "gradient",
+      gradient: {
+        type: "vertical",
+        shadeIntensity: 0,
+        opacityFrom: 1,
+        opacityTo: 0.1,
       },
     },
-    axisBorder: {
-      show: true,
-      color: "#78909C",
-      height: 0,
-      width: "100%",
+    dataLabels: {
+      offsetY: -4,
+      formatter: (val) => val + "°",
+      background: {
+        enabled: false,
+      },
+      style: {
+        fontSize: "12px",
+        fontFamily: '"Comfortaa", cursive',
+      },
     },
-    axisTicks: {
-      show: true,
-      borderType: "dotted",
-      color: "#000",
-      height: 0,
+    legend: {
+      show: false,
     },
-  },
-  yaxis: { show: false },
-  colors: ["#14bdeb", "#E91E63"],
-  dataLabels: {
-    enabled: true,
-    formatter: function (val, opts) {
-      return val + "°C";
+    xaxis: {
+      type: "category",
+      categories: callback,
+      axisTicks: {
+        show: false,
+      },
+      tickPlacement: "on",
+      labels: {
+        show: true,
+        style: {
+          fontFamily: '"Comfortaa", cursive',
+          fontWeight: 800,
+        },
+      },
+      axisBorder: {
+        show: false,
+      },
     },
-    textAnchor: "middle",
-    distributed: false,
-    offsetX: 4,
-    offsetY: -5,
-    style: {
-      fontSize: "14px",
-      fontFamily: "Helvetica, Arial, sans-serif",
-      fontWeight: "bold",
-      colors: undefined,
-    },
-    background: {
+    tooltip: {
       enabled: false,
     },
-  },
-  grid: {
-    show: false,
-  },
-  markers: {
-    size: 5,
-    colors: undefined,
-    strokeColors: "#fff",
-    strokeWidth: 2,
-    hover: {
-      size: undefined,
-      sizeOffset: 3,
+    yaxis: {
+      labels: { show: false },
     },
-  },
-  tooltip: {
-    enabled: false,
-  },
+    grid: {
+      show: false,
+    },
+  };
 };
