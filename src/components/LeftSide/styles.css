@@ -5,11 +5,14 @@
   box-sizing: border-box;
 }
 
-.left-side_container {
-  height: 100vh;
+.left-side_content {
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
   display: flex;
-  background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%);
+  flex-direction: column;
   justify-content: space-between;
+  background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%);
 }
 .current-date {
   color: white;
@@ -58,27 +61,26 @@
   font-family: "Comfortaa", cursive;
   color: white;
 }
-
 @media only screen and (min-width: 1600px) {
-  .left-side_container {
-    padding: 60px;
+  .left-side_content {
+    padding: 30px;
   }
 }
 
 @media only screen and (max-width: 1600px) {
-  .left-side_container {
+  .left-side_content {
     padding: 30px;
   }
 }
 
 @media only screen and (max-width: 1024px) {
-  .left-side_container {
+  .left-side_content {
     padding: 20px;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .left-side_container {
+  .left-side_content {
     padding: 20px;
   }
 }

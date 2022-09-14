@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
-.rightSide {
-  /* background-image: url(../../assets/img/colors.png); */
+
+.right-side_paper {
+  width: 70%;
+  padding: 0 10px 0 15px;
+  border-radius: 10px;
+  background-color: #2dd881;
 }
 .background {
   position: absolute;
