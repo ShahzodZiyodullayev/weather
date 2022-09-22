@@ -44,6 +44,6 @@
   background-color: white;
 }
 .right-side_detail::-webkit-scrollbar-track {
-  background-color: var(--grey);
+  background-color: #273E38;
   /* background-color: var(--green); */
 }
