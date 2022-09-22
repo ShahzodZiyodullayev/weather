@@ -19,7 +19,7 @@ function RightSide() {
 
   return (
     <Grid item xs md={9} container columnSpacing={3} height="max-content">
-      <Grid item md={9}>
+      <Grid item md={8}>
         <Grid className="right-side_chart">
           <ReactApexChart
             options={options(xaxis)}
@@ -29,7 +29,7 @@ function RightSide() {
           />
         </Grid>
       </Grid>
-      <Grid item md={3}>
+      <Grid item md={4}>
         <Grid padding={3} className="right-side_detail">
           {daily?.data &&
             daily.data.map((e) => (
