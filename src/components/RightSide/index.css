@@ -1,10 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
 
+:root {
+  --green: #2dd881;
+  --grey: #3232327c;
+}
+
 .right-side_chart {
   height: 300px;
   padding: 0 10px 0 15px;
   border-radius: 10px;
-  background-color: #2dd881;
+  /* background-color: var(--green); */
+  background-color: var(--grey);
 }
 .background {
   position: absolute;
@@ -18,6 +24,26 @@
 .right-side_detail {
   height: 300px;
   border-radius: 10px;
-  background-color: #2dd881;
-  overflow: auto;
+  background-color: var(--grey);
+  /* background-color: var(--green); */
+  overflow-y: scroll;
+}
+.right-side_detail::-webkit-scrollbar {
+  width: 0;
+  background-color: transparent;
+}
+.right-side_detail::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.right-side_detail:hover::-webkit-scrollbar {
+  width: 5px;
+  background-color: white;
+}
+.right-side_detail:hover::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: white;
+}
+.right-side_detail::-webkit-scrollbar-track {
+  background-color: var(--grey);
+  /* background-color: var(--green); */
 }
