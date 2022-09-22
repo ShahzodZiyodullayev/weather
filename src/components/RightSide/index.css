@@ -7,9 +7,8 @@
 
 .right-side_chart {
   height: 300px;
-  padding: 0 10px 0 15px;
+  padding: 0 10px;
   border-radius: 10px;
-  /* background-color: var(--green); */
   background-color: var(--grey);
 }
 .background {
@@ -44,6 +43,6 @@
   background-color: white;
 }
 .right-side_detail::-webkit-scrollbar-track {
-  background-color: #273E38;
+  background-color: #273e38;
   /* background-color: var(--green); */
 }
