@@ -34,12 +34,14 @@ export const xaxisCategories = (e) => {
 
 export const options = (callback) => {
   return {
-    colors: ["#ffd8d8", "#8ed8ff"],
+    colors: ["#fff"],
     chart: {
       type: "candlestick",
       height: 350,
       toolbar: { show: false },
       zoom: { enabled: false },
+      offsetX: 5,
+      offsetY: -10,
     },
     markers: {
       size: 0,
@@ -74,17 +76,7 @@ export const options = (callback) => {
       },
     },
     legend: {
-      show: true,
-      markers: {
-        width: 12,
-        height: 12,
-        fillColors: ["#fb7c7c", "#00A4FF"],
-        radius: 12,
-      },
-      labels: {
-        colors: "#fff",
-        useSeriesColors: true,
-      },
+      show: false,
     },
     xaxis: {
       type: "category",
