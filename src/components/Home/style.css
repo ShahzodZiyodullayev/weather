@@ -1,7 +1,6 @@
 .home {
-  background: radial-gradient(
-    ellipse at top left,
-    #01a77d 0%,
-    transparent 100%
-  );
+  width: 100vw;
+  height: 100vh;
+  /* background-image: url("../../assets/img/rain.jpg"); */
+  background-size: cover;
 }

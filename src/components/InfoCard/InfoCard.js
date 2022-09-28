@@ -13,7 +13,7 @@ function InfoCard({ icon, name, value }) {
         <br />
         <Typography
           variant="body"
-          color="#E6E6E6"
+          color="#FFB3AA"
           className="weather-property_value"
         >
           {value}
