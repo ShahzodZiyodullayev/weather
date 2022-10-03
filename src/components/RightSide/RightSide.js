@@ -18,8 +18,19 @@ function RightSide() {
   };
 
   return (
-    <Grid item xs md={9} container columnSpacing={3} height="max-content">
-      <Grid item md={8}>
+    <Grid
+      item
+      xs={12}
+      sm={12}
+      md={12}
+      lg={8}
+      xl={9}
+      container
+      columnSpacing={3}
+      rowSpacing={2}
+      height="max-content"
+    >
+      <Grid item xs={12} sm={12} md={8} lg={12} xl={8}>
         <Grid className="right-side_chart">
           <ReactApexChart
             options={options(xaxis)}
@@ -29,11 +40,12 @@ function RightSide() {
           />
         </Grid>
       </Grid>
-      <Grid item md={4}>
+      <Grid item xs={12} sm={12} md={4} lg={12} xl={4}>
         <Grid padding={3} className="right-side_detail">
           {daily?.data &&
-            daily.data.map((e) => (
+            daily.data.map((e, ind) => (
               <InfoCard
+                key={ind}
                 icon={
                   <img
                     style={{ margin: "-15px", width: "80px" }}
