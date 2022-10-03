@@ -10,14 +10,17 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+.left-side_container {
+  z-index: 1;
+}
 .left-side_content {
   border-radius: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  backdrop-filter: blur(5px);
   /* background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%); */
   background-color: var(--grey);
 }
@@ -29,7 +32,11 @@
   height: 40px;
   display: flex;
 }
+.tools_bar_stack {
+  margin-left: 16px;
+}
 .temperature {
+  width: 100%;
   justify-content: flex-end;
 }
 .temperature_round {
@@ -40,7 +47,7 @@
 .temperature_value {
   display: flex;
   font-size: 170px;
-  line-height: 170px;
+  line-height: 150px;
   color: white;
   font-family: "Comfortaa", cursive;
 }
@@ -48,7 +55,7 @@
   color: white;
   font-family: "Comfortaa", cursive;
   font-size: 25px;
-  line-height: 20px;
+  /* line-height: 20px; */
 }
 .temperature_description {
   color: white;
@@ -58,6 +65,7 @@
   text-transform: capitalize;
 }
 .sunrise_and_sunset {
+  margin: 30px 0;
   border-radius: 10px;
 }
 .weather-property_title {

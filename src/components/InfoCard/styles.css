@@ -1,6 +1,7 @@
 .sunrise_and_sunset_left {
   display: flex;
-  width: 100%;
+  width: max-content;
+  min-width: 210px;
   padding: 10px;
   height: max-content;
 }
@@ -19,5 +20,50 @@
 @media only screen and (max-height: 757px) {
   .sunrise_and_sunset_left {
     width: 50%;
+  }
+  .weather-property_title {
+    font-size: 15px;
+  }
+  .weather-property_value {
+    font-size: 12px;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  .sunrise_and_sunset_left {
+    width: max-content;
+    min-width: 200px;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .weather-property_title {
+    font-size: 20px;
+  }
+  .weather-property_value {
+    font-size: 15px;
+  }
+  .sunrise_and_sunset_left {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  .weather-property_title {
+    font-size: 20px;
+  }
+  .weather-property_value {
+    font-size: 15px;
+  }
+  .sunrise_and_sunset_left {
+    width: 100%;
+  }
+}
+@media only screen and (min-width: 2560px) {
+  .weather-property_title {
+    font-size: 20px;
+  }
+  .weather-property_value {
+    font-size: 15px;
+  }
+  .sunrise_and_sunset_left {
+    width: 100%;
   }
 }

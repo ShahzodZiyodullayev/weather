@@ -93,11 +93,11 @@ function LeftSide() {
   }, [current]);
 
   return (
-    <Grid item xs md={3} className="left-side_container">
+    <Grid item xs sm={12} md={12} lg={4} xl={3} className="left-side_container">
       <Grid className="left-side_content" padding={3} direction="column">
         <Grid className="tools_bar">
           <CitySelect />
-          <Stack direction="row" spacing={2} ml={2}>
+          <Stack direction="row" spacing={2} className="tools_bar_stack">
             <Avatar
               variant="square"
               sx={{ borderRadius: "10px", background: "transparent" }}
@@ -136,7 +136,12 @@ function LeftSide() {
               <span className="temperature_round">°</span>
             </Typography>
             {currentLocation && (
-              <Typography className="current_location" noWrap variant="body">
+              <Typography
+                className="current_location"
+                display="block"
+                noWrap
+                variant="body"
+              >
                 {currentLocation.data}
               </Typography>
             )}
