@@ -12,6 +12,7 @@ import {
   WiStrongWind,
   WiWindDeg,
 } from "react-icons/wi";
+import { useSpring, animated, config } from "react-spring";
 import "./styles.css";
 
 function LeftSide() {
@@ -19,6 +20,21 @@ function LeftSide() {
   const current = useSelector((item) => item.current);
   const currentLocation = useSelector((item) => item.location);
 
+  const props = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    reset: true,
+    delay: 200,
+    config: config.molasses,
+  });
+
+  const { number } = useSpring({
+    reset: true,
+    from: { number: 0 },
+    number: Math.round(current.temp - 273.15),
+    delay: 200,
+    config: config.molasses,
+  });
   // console.log(current.weather[0].icon);
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
@@ -113,26 +129,31 @@ function LeftSide() {
         </Grid>
 
         {InfoCardDataList !== null && (
-          <Grid>
-            <Grid container className="sunrise_and_sunset">
-              {InfoCardDataList.map((i, ind) => (
-                <InfoCard
-                  key={ind}
-                  icon={i.icon}
-                  name={i.name}
-                  value={i.value}
-                />
-              ))}
+          <animated.div style={props}>
+            <Grid>
+              <Grid container className="sunrise_and_sunset">
+                {InfoCardDataList.map((i, ind) => (
+                  <InfoCard
+                    key={ind}
+                    icon={i.icon}
+                    name={i.name}
+                    value={i.value}
+                  />
+                ))}
+              </Grid>
             </Grid>
-          </Grid>
+          </animated.div>
         )}
 
         {current && current.temp && (
           <Grid className="temperature">
             <Typography className="temperature_value" variant="body">
-              {current &&
-                current.temp &&
-                `${Math.round(current.temp - 273.15)}`}
+              {current && current.temp && (
+                <animated.div>
+                  {number.to((n) => n.toFixed())}
+                  {/* `${Math.round(current.temp - 273.15)}` */}
+                </animated.div>
+              )}
               <span className="temperature_round">°</span>
             </Typography>
             {currentLocation && (
