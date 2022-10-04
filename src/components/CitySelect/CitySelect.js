@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { DebounceInput } from "react-debounce-input";
 import {
   Box,
@@ -35,24 +35,29 @@ export default function CitySelect(props) {
   const [inError, setInError] = useState(null);
   const [citiesNotFound, setCitiesNotFound] = useState(false);
 
-  const select = (e) => {
-    fetchData((e[1] + e[3]) / 2, (e[0] + e[2]) / 2);
-  };
-  const dispatch = useDispatch();
-
   useEffect(() => {
     fetchData();
   }, []);
 
+  const select = (e) => {
+    fetchData((e[1] + e[3]) / 2, (e[0] + e[2]) / 2);
+  };
+
+  const dispatch = useDispatch();
+
   const fetchData = (lat, lon) => {
     if (lat === undefined && lon === undefined) {
-      getLocation();
+      getCurrentLocationWithCoords(41.2981555, 69.2808155);
+      getWeatherDataFromMapboxApi(41.2981555, 69.2808155);
+      // getLocationCoordsFromBrowser();
     } else {
-      getWeatherData(lat, lon);
+      // getCurrentLocationWithCoords(latitude, longitude);
+      // getWeatherDataFromMapboxApi(latitude, longitude);
+      getWeatherDataFromMapboxApi(lat, lon);
     }
   };
 
-  const getData = async (la, lo) => {
+  const getCurrentLocationWithCoords = async (la, lo) => {
     await axios
       .get(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
@@ -60,26 +65,26 @@ export default function CitySelect(props) {
       .then((e) => dispatch(setCurrentLocation(e.data.features[1].place_name)));
   };
 
-  const getLocation = () => {
+  const getLocationCoordsFromBrowser = () => {
     const watchPositionParams = [
       (pos) => {
-        getData(pos.coords.latitude, pos.coords.longitude);
-        getWeatherData(pos.coords.latitude, pos.coords.longitude);
+        getCurrentLocationWithCoords(pos.coords.latitude, pos.coords.longitude);
+        getWeatherDataFromMapboxApi(pos.coords.latitude, pos.coords.longitude);
       },
       () => {
-        getData(41.2981555, 69.2808155);
-        getWeatherData(41.2981555, 69.2808155);
+        getCurrentLocationWithCoords(41.2981555, 69.2808155);
+        getWeatherDataFromMapboxApi(41.2981555, 69.2808155);
       },
       {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
         timeout: 3000,
-        maximumAge: 0,
+        maximumAge: Infinity,
       },
     ];
     navigator.geolocation.watchPosition(...watchPositionParams);
   };
 
-  const getWeatherData = async (lat, lon) => {
+  const getWeatherDataFromMapboxApi = async (lat, lon) => {
     await axios
       .get(
         `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
@@ -100,13 +105,13 @@ export default function CitySelect(props) {
   const handleChangeLocationValue = (value) => {
     if (value) {
       setLocationValue(value);
-      getLocations(value);
+      getLocationFromMapboxAPI(value);
     } else {
       setLocationValue("");
     }
   };
 
-  const getLocations = async (e) => {
+  const getLocationFromMapboxAPI = async (e) => {
     setLoading(true);
     try {
       setVisible(true);
