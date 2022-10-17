@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Typography, Avatar, Stack, Paper, Grid } from "@mui/material";
+import { UilBell } from "@iconscout/react-unicons";
 import CitySelect from "../CitySelect";
 import InfoCard from "../InfoCard/InfoCard";
-import { UilBell } from "@iconscout/react-unicons";
 import {
   WiHorizonAlt,
   WiHorizon,
@@ -23,18 +23,22 @@ function LeftSide() {
   const props = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 },
-    reset: true,
-    delay: 200,
+    // reset: true,
+    delay: 500,
+    config: config.molasses,
+  });
+  const { number } = useSpring({
+    // reset: true,
+    from: { number: 0 },
+    number: current.temp ? Math.round(current.temp - 273.15) : 0,
+    delay: 900,
     config: config.molasses,
   });
 
-  const { number } = useSpring({
-    reset: true,
-    from: { number: 0 },
-    number: Math.round(current.temp - 273.15),
-    delay: 200,
-    config: config.molasses,
-  });
+  useEffect(() => {
+    setInfoData();
+  }, [current]);
+
   // console.log(current.weather[0].icon);
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
@@ -50,7 +54,7 @@ function LeftSide() {
 
   const getTimefromUnix = (arg) => {
     const date = new Date(arg * 1000);
-    return date.getHours() + ":" + date.getMinutes();
+    return date.getHours() + ":" + String(date.getMinutes()).padStart(2, 0);
   };
 
   const setInfoData = () => {
@@ -66,27 +70,27 @@ function LeftSide() {
       setInfoCardDataList([
         {
           name: "Sunrise",
-          icon: <WiHorizonAlt size={50} color="white" />,
+          icon: <WiHorizonAlt size={50} color="#ffffff" />,
           value: getTimefromUnix(current.sunrise),
         },
         {
           name: "Sunset",
-          icon: <WiHorizon size={50} color="white" />,
+          icon: <WiHorizon size={50} color="#ffffff" />,
           value: getTimefromUnix(current.sunset),
         },
         {
           name: "Humidity",
-          icon: <WiHumidity size={50} color="white" />,
+          icon: <WiHumidity size={50} color="#ffffff" />,
           value: current.humidity + "%",
         },
         {
           name: "Pressure",
-          icon: <WiBarometer size={50} color="white" />,
+          icon: <WiBarometer size={50} color="#ffffff" />,
           value: current.pressure + "mb",
         },
         {
           name: "Wind Speed",
-          icon: <WiStrongWind size={50} color="white" />,
+          icon: <WiStrongWind size={50} color="#ffffff" />,
           value: current.wind_speed + "m/s",
         },
         {
@@ -104,32 +108,28 @@ function LeftSide() {
     }
   };
 
-  useEffect(() => {
-    setInfoData();
-  }, [current]);
-
   return (
     <Grid item xs sm={12} md={12} lg={4} xl={3} className="left-side_container">
-      <Grid className="left-side_content" padding={3} direction="column">
-        <Grid className="tools_bar">
-          <CitySelect />
-          <Stack direction="row" spacing={2} className="tools_bar_stack">
-            <Avatar
-              variant="square"
-              sx={{ borderRadius: "10px", background: "transparent" }}
-            >
-              <UilBell />
-            </Avatar>
-            <Avatar
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-              variant="square"
-              sx={{ borderRadius: "10px" }}
-            />
-          </Stack>
-        </Grid>
+      <animated.div className="max_height" style={props}>
+        <Grid className="left-side_content" padding={3}>
+          <Grid className="tools_bar">
+            <CitySelect />
+            <Stack direction="row" spacing={2} className="tools_bar_stack">
+              <Avatar
+                variant="square"
+                sx={{ borderRadius: "10px", background: "transparent" }}
+              >
+                <UilBell />
+              </Avatar>
+              <Avatar
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                variant="square"
+                sx={{ borderRadius: "10px" }}
+              />
+            </Stack>
+          </Grid>
 
-        {InfoCardDataList !== null && (
-          <animated.div style={props}>
+          {InfoCardDataList !== null && (
             <Grid>
               <Grid container className="sunrise_and_sunset">
                 {InfoCardDataList.map((i, ind) => (
@@ -142,42 +142,39 @@ function LeftSide() {
                 ))}
               </Grid>
             </Grid>
-          </animated.div>
-        )}
+          )}
 
-        {current && current.temp && (
-          <Grid className="temperature">
-            <Typography className="temperature_value" variant="body">
-              {current && current.temp && (
-                <animated.div>
-                  {number.to((n) => n.toFixed())}
-                  {/* `${Math.round(current.temp - 273.15)}` */}
-                </animated.div>
-              )}
-              <span className="temperature_round">°</span>
-            </Typography>
-            {currentLocation && (
-              <Typography
-                className="current_location"
-                display="block"
-                noWrap
-                variant="body"
-              >
-                {currentLocation.data}
+          {current && current.temp && (
+            <Grid className="temperature">
+              <Typography className="temperature_value" variant="body">
+                {current && current.temp && (
+                  <animated.div>{number.to((n) => n.toFixed())}</animated.div>
+                )}
+                <span className="temperature_round">°</span>
               </Typography>
-            )}
-            <br />
-            <Typography className="temperature_description" variant="body">
-              {current && current.weather && current.weather[0].description}
-            </Typography>
-            {/* <img
+              {currentLocation && (
+                <Typography
+                  className="current_location_name"
+                  display="block"
+                  noWrap
+                  variant="body"
+                >
+                  {currentLocation.data}
+                </Typography>
+              )}
+              {/* <br /> */}
+              <Typography className="temperature_description" variant="body">
+                {current && current.weather && current.weather[0].description}
+              </Typography>
+              {/* <img
             style={{ marginLeft: "-20px" }}
             src={`http://openweathermap.org/img/wn/${current && current.weather && current.weather[0].icon
               }@2x.png`}
           /> */}
-          </Grid>
-        )}
-      </Grid>
+            </Grid>
+          )}
+        </Grid>
+      </animated.div>
     </Grid>
   );
 }

@@ -3,8 +3,10 @@ import LeftSide from "../LeftSide/LeftSide";
 import RightSide from "../RightSide/RightSide";
 import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
-import { createClient } from "pexels";
+// import { createClient } from "pexels";
 import { createApi } from "unsplash-js";
+import { XlviLoader } from "react-awesome-loaders";
+import { useSpring, animated, config } from "react-spring";
 import "./style.css";
 
 function Home(props) {
@@ -13,6 +15,9 @@ function Home(props) {
   const current = useSelector((state) => state.current);
 
   useEffect(() => {
+    // if (current.length > 0) {
+    //   setLoading(false);
+    // }
     // if (current && current.weather) {
     //   const client = createClient(
     //     "563492ad6f917000010000014779d010e7dc4223b3ddb3fa3015e28e",
@@ -42,16 +47,32 @@ function Home(props) {
     }
   }, [current]);
 
+  const prop = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    // reset: true,
+    delay: 300,
+    config: config.molasses,
+  });
+
   return (
-    <Grid
-      padding={3}
-      className="home"
-      sx={{
-        // height: "100vh",
-        backgroundImage: `url(${photos})`,
-      }}
-    >
+    <Grid padding={3} height="100vh">
       <Grid container columnSpacing={3} rowSpacing={2} height="100%">
+        <animated.div style={prop}>
+          <Grid
+            className="home"
+            sx={{
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              zIndex: -100,
+              position: "fixed",
+              // backgroundImage: `url(${photos})`,
+              background: "linear-gradient(to right, #e65c00, #F9D423)",
+            }}
+          />
+        </animated.div>
         <LeftSide currentLocation={currentLocation} />
         <RightSide />
       </Grid>

@@ -18,7 +18,7 @@
   /* overflow: hidden; */
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: column !important;
   justify-content: space-between;
   backdrop-filter: blur(5px);
   /* background: linear-gradient(330deg, #11998e 0%, #38ef7d 100%); */
@@ -51,11 +51,11 @@
   color: white;
   font-family: "Comfortaa", cursive;
 }
-.current_location {
+.current_location_name {
   color: white;
   font-family: "Comfortaa", cursive;
   font-size: 25px;
-  /* line-height: 20px; */
+  line-height: 25px;
 }
 .temperature_description {
   color: white;
@@ -75,6 +75,12 @@
 .weather-property_value {
   font-family: "Comfortaa", cursive;
   color: white;
+}
+.max_height {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 @media only screen and (min-width: 1600px) {
   .left-side_content {

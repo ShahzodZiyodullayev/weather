@@ -20,6 +20,7 @@ import {
   setHourlyWeather,
   setCurrentLocation,
 } from "./../../redux/actions/weatherActions";
+import { useSpring, animated, config } from "react-spring";
 
 const api = {
   key: "b60784f97169c5d1da965fb3dcf63b17",
@@ -146,6 +147,14 @@ export default function CitySelect(props) {
     }
   };
 
+  const prop = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    // reset: true,
+    delay: 700,
+    config: config.molasses,
+  });
+
   return (
     <Grid className="cont">
       <Box
@@ -182,7 +191,6 @@ export default function CitySelect(props) {
             />
           </Box>
         </Box>
-
         <Box
           className={`autocomplateContainer ${
             locationValue === "" && visible === false

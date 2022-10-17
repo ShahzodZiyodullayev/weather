@@ -3,7 +3,7 @@ import { Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import ReactApexChart from "react-apexcharts";
 import "swiper/swiper-bundle.css";
-import { options } from "../../helper/chartData";
+import { options } from "../../helper/dailyChartData";
 import "./style.css";
 // import { Swiper, SwiperSlide } from "swiper/react";
 

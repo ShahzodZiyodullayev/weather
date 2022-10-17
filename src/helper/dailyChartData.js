@@ -1,6 +1,6 @@
 import { shortMonthName } from "./date";
 
-export const series = (e) => {
+export const dailySeries = (e) => {
   let seriesData;
   if (e?.data) {
     seriesData = [
@@ -19,7 +19,7 @@ export const series = (e) => {
   return seriesData;
 };
 
-export const xaxisCategories = (e) => {
+export const dailyXaxisCategories = (e) => {
   let xaxisCategoriesData;
   if (e?.data) {
     xaxisCategoriesData = e.data.map((e) => {
@@ -32,9 +32,9 @@ export const xaxisCategories = (e) => {
   return xaxisCategoriesData;
 };
 
-export const options = (callback) => {
+export const dailyOptions = (callback) => {
   return {
-    colors: ["#fff"],
+    colors: ["#ffffff"],
     chart: {
       type: "candlestick",
       height: 350,
@@ -88,7 +88,7 @@ export const options = (callback) => {
       labels: {
         show: true,
         style: {
-          colors: "#fff",
+          colors: "#ffffff",
           fontFamily: '"Comfortaa", cursive',
           fontWeight: 800,
         },
