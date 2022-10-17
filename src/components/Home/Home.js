@@ -5,7 +5,6 @@ import { Grid } from "@mui/material";
 import { useSelector } from "react-redux";
 // import { createClient } from "pexels";
 import { createApi } from "unsplash-js";
-import { XlviLoader } from "react-awesome-loaders";
 import { useSpring, animated, config } from "react-spring";
 import "./style.css";
 

@@ -1,12 +1,9 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { SunspotLoader } from "react-awesome-loaders";
 import { Grid } from "@mui/material";
 
 const Home = lazy(() => import("./components/Home"));
 
 function App() {
-  // const [playAnimation, setPlayAnimation] = useState(false);
-
   const Loading = () => {
     return (
       <Grid
@@ -21,30 +18,13 @@ function App() {
           alignItems: "center",
         }}
       >
-        <SunspotLoader
-          gradientColors={["#6366F1", "#E0E7FF"]}
-          shadowColor={"#3730A3"}
-          desktopSize={"128px"}
-          mobileSize={"100px"}
+        <img
+          src={require("./assets/animation_640_l9cjegmk.gif")}
+          alt="loading"
         />
       </Grid>
     );
   };
-  // // This will run one time after the component mounts
-  // useEffect(() => {
-  //   const onPageLoad = () => {
-  //     setPlayAnimation(true);
-  //   };
-
-  //   // Check if the page has already loaded
-  //   if (document.readyState === "complete") {
-  //     onPageLoad();
-  //   } else {
-  //     window.addEventListener("load", onPageLoad);
-  //     // Remove the event listener when component unmounts
-  //     return () => window.removeEventListener("load", onPageLoad);
-  //   }
-  // }, []);
 
   return (
     <>
