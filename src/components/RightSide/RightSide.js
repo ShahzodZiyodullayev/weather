@@ -1,28 +1,15 @@
 import { useSelector } from "react-redux";
 import { Grid, Typography } from "@mui/material";
-import ReactApexChart from "react-apexcharts";
 import "./index.css";
-import {
-  dailyOptions,
-  dailySeries,
-  dailyXaxisCategories,
-} from "../../helper/dailyChartData";
-import {
-  hourlyOptions,
-  hourlySeries,
-  hourlyXaxisCategories,
-} from "../../helper/hourlyChartData";
 import InfoCard from "../InfoCard/InfoCard";
+import HourlyChart from "./Charts/HourlyChart";
 import { shortMonthName } from "../../helper/date";
 import { useSpring, config, animated } from "react-spring";
+import DailyChart from "./Charts/DailyChart";
 
 function RightSide() {
   const daily = useSelector((state) => state.daily);
   const hourly = useSelector((state) => state.hourly);
-  let dailyXaxis = dailyXaxisCategories(daily);
-  let hourlyXaxis = hourlyXaxisCategories({
-    data: hourly?.data ? hourly.data.filter((e, i) => i < 24) : undefined,
-  });
 
   const getTimefromUnix = (arg) => {
     const date = new Date(arg * 1000);
@@ -57,12 +44,7 @@ function RightSide() {
             <Typography variant="h5" ml="14px">
               Daily
             </Typography>
-            <ReactApexChart
-              options={dailyOptions(dailyXaxis)}
-              series={dailySeries(daily)}
-              type="area"
-              height="100%"
-            />
+            <DailyChart />
           </Grid>
         </animated.div>
       </Grid>
@@ -134,13 +116,7 @@ function RightSide() {
               Hourly
             </Typography>
             <Grid height={true} className="right-side_hourly-chart">
-              <ReactApexChart
-                options={hourlyOptions(hourlyXaxis)}
-                series={hourlySeries(hourly)}
-                type="area"
-                width="2000px"
-                height="100%"
-              />
+              <HourlyChart />
             </Grid>
           </Grid>
         </animated.div>
