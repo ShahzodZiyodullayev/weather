@@ -1,85 +1,57 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Home from "./components/Home";
-import { useDispatch } from "react-redux";
-import {
-  setCurrentWeather,
-  setDailyWeather,
-  setHourlyWeather,
-} from "./redux/actions/weatherActions";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { SunspotLoader } from "react-awesome-loaders";
+import { Grid } from "@mui/material";
 
-const api = {
-  key: "b60784f97169c5d1da965fb3dcf63b17",
-  baseUrl: "https://api.openweathermap.org/data/2.5/",
-};
+const Home = lazy(() => import("./components/Home"));
 
 function App() {
-  const [currentLocation, setCurrentLocation] = useState();
-  const dispatch = useDispatch();
+  // const [playAnimation, setPlayAnimation] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = (lat, lon) => {
-    if (lat === undefined && lon === undefined) {
-      getLocation();
-    } else {
-      getWeatherData(lat, lon);
-    }
+  const Loading = () => {
+    return (
+      <Grid
+        sx={{
+          position: "absolute",
+          top: "0",
+          left: "0",
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SunspotLoader
+          gradientColors={["#6366F1", "#E0E7FF"]}
+          shadowColor={"#3730A3"}
+          desktopSize={"128px"}
+          mobileSize={"100px"}
+        />
+      </Grid>
+    );
   };
+  // // This will run one time after the component mounts
+  // useEffect(() => {
+  //   const onPageLoad = () => {
+  //     setPlayAnimation(true);
+  //   };
 
-  const select = (e) => {
-    fetchData((e[1] + e[3]) / 2, (e[0] + e[2]) / 2);
-  };
-
-  const getData = async (la, lo) => {
-    await axios
-      .get(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lo},${la}.json?access_token=pk.eyJ1Ijoic3NoYWh6b2Q1IiwiYSI6ImNsMjRqb2V3NzBhMDIzY3F6N3p3c2MyZGsifQ.hhX6yDNbtjOrROsYkiue7g`,
-      )
-      .then((e) => setCurrentLocation(e.data.features[1].place_name));
-  };
-
-  const getLocation = () => {
-    const watchPositionParams = [
-      (pos) => {
-        getData(pos.coords.latitude, pos.coords.longitude);
-        getWeatherData(pos.coords.latitude, pos.coords.longitude);
-      },
-      () => {
-        getData(41.2981555, 69.2808155);
-        getWeatherData(41.2981555, 69.2808155);
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 3000,
-        maximumAge: 0,
-      },
-    ];
-    navigator.geolocation.watchPosition(...watchPositionParams);
-  };
-
-  const getWeatherData = async (lat, lon) => {
-    await axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=&appid=${api.key}`,
-      )
-      .then((e) => {
-        dispatch(setCurrentWeather(e.data.current));
-        dispatch(setDailyWeather(e.data.daily));
-        dispatch(setHourlyWeather(e.data.hourly));
-      });
-  };
+  //   // Check if the page has already loaded
+  //   if (document.readyState === "complete") {
+  //     onPageLoad();
+  //   } else {
+  //     window.addEventListener("load", onPageLoad);
+  //     // Remove the event listener when component unmounts
+  //     return () => window.removeEventListener("load", onPageLoad);
+  //   }
+  // }, []);
 
   return (
-    <div>
-      <Home
-        select={select}
-        currentLocation={currentLocation}
-        setCurrentLocation={setCurrentLocation}
-      />
-    </div>
+    <>
+      <Suspense fallback={<Loading />}>
+        <Home />
+      </Suspense>
+    </>
   );
 }
 

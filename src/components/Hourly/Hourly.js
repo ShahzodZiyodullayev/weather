@@ -7,7 +7,7 @@ function Hourly() {
   const hourly = useSelector((s) => s.hourly);
 
   return (
-    <Grid className="hourlyContainer" item>
+    <Grid className="hourlyContainer" item height="65vh">
       {hourly &&
         hourly.data &&
         hourly.data.length > 0 &&

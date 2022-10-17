@@ -1,141 +1,180 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Grid, Typography } from "@mui/material";
-import { monthName } from "../../helper/date";
+import { Typography, Avatar, Stack, Paper, Grid } from "@mui/material";
+import { UilBell } from "@iconscout/react-unicons";
+import CitySelect from "../CitySelect";
+import InfoCard from "../InfoCard/InfoCard";
+import {
+  WiHorizonAlt,
+  WiHorizon,
+  WiHumidity,
+  WiBarometer,
+  WiStrongWind,
+  WiWindDeg,
+} from "react-icons/wi";
+import { useSpring, animated, config } from "react-spring";
+import "./styles.css";
 
-function LeftSide(props) {
-  const { currentLocation } = props;
-  const [currentDate, setCurrentDate] = useState();
-  const [time, setTime] = useState();
+function LeftSide() {
+  const [InfoCardDataList, setInfoCardDataList] = useState(null);
   const current = useSelector((item) => item.current);
+  const currentLocation = useSelector((item) => item.location);
+
+  const props = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    // reset: true,
+    delay: 500,
+    config: config.molasses,
+  });
+  const { number } = useSpring({
+    // reset: true,
+    from: { number: 0 },
+    number: current.temp ? Math.round(current.temp - 273.15) : 0,
+    delay: 900,
+    config: config.molasses,
+  });
+
+  useEffect(() => {
+    setInfoData();
+  }, [current]);
 
   // console.log(current.weather[0].icon);
   // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
-  const date = () => {
-    let newDate = new Date();
-    let month = monthName[newDate.getMonth()];
-    let day = newDate.getDate();
-    let year = newDate.getFullYear();
-    setCurrentDate(`${month} ${day}, ${year}`);
+  // const date = () => {
+  //   let newDate = new Date();
+  //   let month = monthName[newDate.getMonth()];
+  //   let day = newDate.getDate();
+  //   let year = newDate.getFullYear();
+  //   setCurrentDate(`${month} ${day}, ${year}`);
+  // };
+
+  // let InfoCardDataList = null;
+
+  const getTimefromUnix = (arg) => {
+    const date = new Date(arg * 1000);
+    return date.getHours() + ":" + String(date.getMinutes()).padStart(2, 0);
   };
 
-  useEffect(() => {
-    date();
-    const timer = setInterval(() => {
-      const t = new Date();
-      setTime(
-        `${t.getHours() < 10 ? "0" + t.getHours() : t.getHours()}:${
-          t.getMinutes() < 10 ? "0" + t.getMinutes() : t.getMinutes()
-        }:${t.getSeconds() < 10 ? "0" + t.getSeconds() : t.getSeconds()}`,
-      );
-    }, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  const setInfoData = () => {
+    if (
+      current &&
+      current.sunrise &&
+      current.sunset &&
+      current.humidity &&
+      current.pressure &&
+      current.wind_deg &&
+      current.wind_speed
+    ) {
+      setInfoCardDataList([
+        {
+          name: "Sunrise",
+          icon: <WiHorizonAlt size={50} color="#ffffff" />,
+          value: getTimefromUnix(current.sunrise),
+        },
+        {
+          name: "Sunset",
+          icon: <WiHorizon size={50} color="#ffffff" />,
+          value: getTimefromUnix(current.sunset),
+        },
+        {
+          name: "Humidity",
+          icon: <WiHumidity size={50} color="#ffffff" />,
+          value: current.humidity + "%",
+        },
+        {
+          name: "Pressure",
+          icon: <WiBarometer size={50} color="#ffffff" />,
+          value: current.pressure + "mb",
+        },
+        {
+          name: "Wind Speed",
+          icon: <WiStrongWind size={50} color="#ffffff" />,
+          value: current.wind_speed + "m/s",
+        },
+        {
+          name: "Wind degree",
+          icon: (
+            <WiWindDeg
+              size={50}
+              color="white"
+              style={{ transform: `rotate(${current.wind_deg}deg)` }}
+            />
+          ),
+          value: current.wind_deg + "°",
+        },
+      ]);
+    }
+  };
 
   return (
-    <Grid
-      item
-      xs={12}
-      sm={12}
-      md={4}
-      sx={{
-        p: { md: "60px", sm: "30px", xs: "20px 20px 40px 20px" },
-        height: { md: "100vh", sm: "50vh", xs: "50vh" },
-        display: "flex",
-        // background: "linear-gradient(-30deg, #F88169, #F14B91)",
-        background: "linear-gradient(330deg, #11998e 0%, #38ef7d 100% )",
-        flexDirection: " column",
-        justifyContent: "space-between",
-        clipPath: {
-          md: "none",
-          sm: "none",
-          xs: "polygon(0 0, 100% 0, 100% 85%, 0 100%)",
-        },
-      }}
-    >
-      <Grid>
-        <Typography
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-            fontSize: "60px",
-            lineHeight: "60px",
-          }}
-        >
-          {time}
-        </Typography>
-        <Typography
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-          }}
-        >
-          {currentDate}
-        </Typography>
-        {/* <img
-          style={{ marginLeft: "-20px" }}
-          src={`http://openweathermap.org/img/wn/${
-            current && current.weather && current.weather[0].icon
-          }@2x.png`}
-        /> */}
-      </Grid>
+    <Grid item xs sm={12} md={12} lg={4} xl={3} className="left-side_container">
+      <animated.div className="max_height" style={props}>
+        <Grid className="left-side_content" padding={3}>
+          <Grid className="tools_bar">
+            <CitySelect />
+            <Stack direction="row" spacing={2} className="tools_bar_stack">
+              <Avatar
+                variant="square"
+                sx={{ borderRadius: "10px", background: "transparent" }}
+              >
+                <UilBell />
+              </Avatar>
+              <Avatar
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                variant="square"
+                sx={{ borderRadius: "10px" }}
+              />
+            </Stack>
+          </Grid>
 
-      <Grid
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-        }}
-      >
-        <Typography
-          sx={{
-            display: " flex",
-            fontSize: "170px",
-            lineHeight: "110px",
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-          }}
-        >
-          {current && current.temp && `${Math.round(current.temp - 273.15)}`}
-          <span
-            style={{
-              position: "relative",
-              fontSize: "70px",
-              marginTop: "-60px",
-            }}
-          >
-            °
-          </span>
-        </Typography>
-        <Typography
-          noWrap
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-            fontSize: "20px",
-            lineHeight: "20px",
-            mt: "20px",
-          }}
-        >
-          {currentLocation}
-        </Typography>
-        <Typography
-          sx={{
-            color: "white",
-            fontFamily: "Comfortaa, cursive",
-            fontSize: "12px",
-            lineHeight: "12px",
-            textTransform: "capitalize",
-            mt: "7px",
-          }}
-        >
-          {current && current.weather && current.weather[0].description}
-        </Typography>
-      </Grid>
+          {InfoCardDataList !== null && (
+            <Grid>
+              <Grid container className="sunrise_and_sunset">
+                {InfoCardDataList.map((i, ind) => (
+                  <InfoCard
+                    key={ind}
+                    icon={i.icon}
+                    name={i.name}
+                    value={i.value}
+                  />
+                ))}
+              </Grid>
+            </Grid>
+          )}
+
+          {current && current.temp && (
+            <Grid className="temperature">
+              <Typography className="temperature_value" variant="body">
+                {current && current.temp && (
+                  <animated.div>{number.to((n) => n.toFixed())}</animated.div>
+                )}
+                <span className="temperature_round">°</span>
+              </Typography>
+              {currentLocation && (
+                <Typography
+                  className="current_location_name"
+                  display="block"
+                  noWrap
+                  variant="body"
+                >
+                  {currentLocation.data}
+                </Typography>
+              )}
+              {/* <br /> */}
+              <Typography className="temperature_description" variant="body">
+                {current && current.weather && current.weather[0].description}
+              </Typography>
+              {/* <img
+            style={{ marginLeft: "-20px" }}
+            src={`http://openweathermap.org/img/wn/${current && current.weather && current.weather[0].icon
+              }@2x.png`}
+          /> */}
+            </Grid>
+          )}
+        </Grid>
+      </animated.div>
     </Grid>
   );
 }

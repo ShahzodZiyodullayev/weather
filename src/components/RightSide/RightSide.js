@@ -1,179 +1,149 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import CitySelect from "../CitySelect";
-import { Divider, Grid, Typography, Tabs, Tab, Box } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Hourly from "../Hourly";
-import Daily from "../Daily";
-import Today from "../Today";
+import { Grid, Typography } from "@mui/material";
+import ReactApexChart from "react-apexcharts";
+import "./index.css";
+import {
+  dailyOptions,
+  dailySeries,
+  dailyXaxisCategories,
+} from "../../helper/dailyChartData";
+import {
+  hourlyOptions,
+  hourlySeries,
+  hourlyXaxisCategories,
+} from "../../helper/hourlyChartData";
+import InfoCard from "../InfoCard/InfoCard";
+import { shortMonthName } from "../../helper/date";
+import { useSpring, config, animated } from "react-spring";
 
-function RightSide(props) {
-  const current = useSelector((state) => state.current);
-  const { select, setCurrentLocation } = props;
-  const [value, setValue] = useState(0);
+function RightSide() {
+  const daily = useSelector((state) => state.daily);
+  const hourly = useSelector((state) => state.hourly);
+  let dailyXaxis = dailyXaxisCategories(daily);
+  let hourlyXaxis = hourlyXaxisCategories({
+    data: hourly?.data ? hourly.data.filter((e, i) => i < 24) : undefined,
+  });
 
-  const theme = useTheme();
-  const isSm = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const getTimefromUnix = (arg) => {
+    const date = new Date(arg * 1000);
+    return date.getDate() + " " + shortMonthName[date.getMonth()];
   };
 
-  function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-      <Grid
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box sx={{ p: 0 }}>
-            <Typography>{children}</Typography>
-          </Box>
-        )}
-      </Grid>
-    );
-  }
-
-  TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
+  const FadeAnimation = (time) => {
+    return useSpring({
+      to: { opacity: 1 },
+      from: { opacity: 0 },
+      delay: time,
+      config: config.molasses,
+    });
   };
-
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
 
   return (
     <Grid
       item
       xs={12}
       sm={12}
-      md={8}
-      sx={{
-        background: "white",
-        height: "100vh",
-        p: { md: "40px 60px", sm: "20px 30px", xs: "10px 20px" },
-      }}
+      md={12}
+      lg={8}
+      xl={9}
+      container
+      columnSpacing={3}
+      rowSpacing={2}
+      height="max-content"
     >
-      <Grid
-        mb="7px"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-end",
-        }}
-      >
-        <Typography sx={{ fontFamily: "Comfortaa, cursive", color: "#666" }}>
-          Statistics
-        </Typography>
-        <CitySelect select={select} setCurrentLocation={setCurrentLocation} />
+      <Grid item xs={12} sm={12} md={8} lg={12} xl={8}>
+        <animated.div style={FadeAnimation(700)}>
+          <Grid className="right-side_chart">
+            <Typography variant="h5" ml="14px">
+              Daily
+            </Typography>
+            <ReactApexChart
+              options={dailyOptions(dailyXaxis)}
+              series={dailySeries(daily)}
+              type="area"
+              height="100%"
+            />
+          </Grid>
+        </animated.div>
       </Grid>
-      <Grid>
-        <Divider />
+      <Grid item xs={12} sm={12} md={4} lg={12} xl={4}>
+        <animated.div style={FadeAnimation(900)}>
+          <Grid padding={3} className="right-side_detail">
+            <Typography variant="h5" ml="14px">
+              Daily
+            </Typography>
+            <Grid className="right-side_scrollable-grid">
+              {daily?.data &&
+                daily.data.map((e, ind) => (
+                  <InfoCard
+                    key={ind}
+                    icon={
+                      <img
+                        style={{ margin: "-15px", width: "80px" }}
+                        src={`http://openweathermap.org/img/wn/${
+                          e && e.weather && e.weather[0].icon
+                        }@2x.png`}
+                      />
+                    }
+                    name={getTimefromUnix(e.dt)}
+                    value={`${Math.round(e.temp.day - 273.15)}°/ ${Math.round(
+                      e.temp.night - 273.15,
+                    )}°`}
+                  />
+                ))}
+            </Grid>
+          </Grid>
+        </animated.div>
       </Grid>
-      <Grid container>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/humidity.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.humidity} %
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/wind.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && Math.round(current.wind_speed)} m/s
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/clouds.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.clouds} %
-          </Typography>
-        </Grid>
-        <Grid item md={3} xs={3} p="20px" textAlign="center">
-          <img
-            src={require("./../../assets/icons/pressure.png")}
-            width={isSm ? "40px" : "60px"}
-            alt="img"
-          />
-          <Typography fontFamily="Comfortaa, cursive" color="#999">
-            {current && current.pressure} hPa
-          </Typography>
-        </Grid>
+
+      <Grid item xs={12} sm={12} md={4} lg={12} xl={4}>
+        <animated.div style={FadeAnimation(1100)}>
+          <Grid padding={3} className="right-side_detail">
+            <Typography variant="h5" ml="14px">
+              Hourly
+            </Typography>
+            <Grid className="right-side_scrollable-grid">
+              {hourly?.data &&
+                hourly.data
+                  .filter((e, i) => i < 24)
+                  .map((e, ind) => (
+                    <InfoCard
+                      key={ind}
+                      icon={
+                        <img
+                          style={{ margin: "-15px", width: "80px" }}
+                          src={`http://openweathermap.org/img/wn/${
+                            e && e.weather && e.weather[0].icon
+                          }@2x.png`}
+                        />
+                      }
+                      name={getTimefromUnix(e.dt)}
+                      value={`${Math.round(e.temp.day - 273.15)}°/ ${Math.round(
+                        e.temp.night - 273.15,
+                      )}°`}
+                    />
+                  ))}
+            </Grid>
+          </Grid>
+        </animated.div>
       </Grid>
-      <Grid overflow="hidden">
-        <Box sx={{ width: "100%" }}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-              textColor="primary"
-              indicatorColor="primary"
-              centered={isSm ? true : false}
-            >
-              <Tab
-                label={`Today`}
-                {...a11yProps(0)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
+      <Grid item xs={12} sm={12} md={8} lg={12} xl={8}>
+        <animated.div style={FadeAnimation(1300)}>
+          <Grid className="right-side_chart">
+            <Typography variant="h5" ml="14px">
+              Hourly
+            </Typography>
+            <Grid height={true} className="right-side_hourly-chart">
+              <ReactApexChart
+                options={hourlyOptions(hourlyXaxis)}
+                series={hourlySeries(hourly)}
+                type="area"
+                width="2000px"
+                height="100%"
               />
-              <Tab
-                label={`Hourly`}
-                {...a11yProps(1)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
-              />
-              <Tab
-                label={`Daily`}
-                {...a11yProps(2)}
-                sx={{
-                  fontFamily: "Comfortaa, cursive",
-                  textTransform: "capitalize",
-                  p: 0,
-                }}
-              />
-            </Tabs>
-          </Box>
-          <TabPanel value={value} index={0}>
-            <Today />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Hourly />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Daily />
-          </TabPanel>
-        </Box>
+            </Grid>
+          </Grid>
+        </animated.div>
       </Grid>
     </Grid>
   );

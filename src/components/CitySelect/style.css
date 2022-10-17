@@ -1,46 +1,71 @@
-.input {
-  height: 70%;
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap");
+
+.cont {
   width: 100%;
-  border-radius: 6px;
+}
+
+.input_container {
+  height: 100%;
+  position: relative;
+  z-index: 20;
+}
+
+.input {
+  height: 100%;
+  width: 100%;
   padding: 0 5px;
-  border: 1px solid #999;
+  border: none;
+  box-sizing: border-box;
   outline: none;
-  font-size: 14px;
-  font-family: Comfortaa, cursive;
+  font-size: 20px;
+  font-family: "Comfortaa", cursive;
   color: #666;
+  z-index: 1000;
 }
 .input:active {
   border: none;
 }
 .searchIcon {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: -24px;
+  left: -24px;
   width: 100vw;
   height: 100vh;
   z-index: 10;
+  /* background-color: rgba(194, 6, 6, 0.4); */
 }
 .visible {
   visibility: visible;
+  opacity: 1 !important;
 }
 .hidden {
   visibility: hidden;
 }
 .inputField {
+  padding: 5px 10px;
+  border-radius: 10px;
   display: flex;
   align-items: flex-end;
-  height: 36px;
+  height: 100%;
   background: white;
+  overflow: hidden;
 }
 .xContainer {
+  height: 100%;
+  display: flex;
+  align-items: center;
   cursor: pointer;
-  margin-top: 10px;
 }
 .UilSearch {
+  height: 100%;
+  display: flex;
+  align-items: center;
   color: #757575;
   cursor: pointer;
 }
 .autocomplateContainer {
+  transition: all 300ms;
+  opacity: 0;
   position: absolute;
   width: 100%;
   padding-top: 10px;
