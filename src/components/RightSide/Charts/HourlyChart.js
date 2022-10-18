@@ -20,7 +20,7 @@ function HourlyChart() {
         speed: 800,
         animateGradually: {
           enabled: true,
-          delay: 150,
+          delay: 350,
         },
         dynamicAnimation: {
           enabled: true,

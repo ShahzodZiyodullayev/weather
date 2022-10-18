@@ -55,8 +55,8 @@ function Home(props) {
   });
 
   return (
-    <Grid padding={3} height="100vh">
-      <Grid container columnSpacing={3} rowSpacing={2} height="100%">
+    <Grid padding={2} height="100vh">
+      <Grid container columnSpacing={1} rowSpacing={1} height="100%">
         <animated.div style={prop}>
           <Grid
             className="home"
