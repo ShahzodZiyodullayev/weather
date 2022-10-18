@@ -4,6 +4,10 @@
   min-width: 210px;
   padding: 10px;
   height: max-content;
+  justify-content: space-between;
+}
+.weather-property_left-container {
+  display: flex;
 }
 .weather-property_title {
   font-size: 20px;
@@ -13,9 +17,17 @@
 .weather-property_value {
   font-size: 15px;
   font-family: "Comfortaa", cursive;
+  color: #cccccc !important;
 }
 .weather-property_icon {
   margin-top: -3px;
+}
+.weather-property_additional {
+  font-size: 20px;
+  align-self: flex-start;
+  line-height: 20px;
+  color: white;
+  text-transform: capitalize;
 }
 @media only screen and (max-height: 757px) {
   .sunrise_and_sunset_left {

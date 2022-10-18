@@ -11,6 +11,8 @@ function RightSide() {
   const daily = useSelector((state) => state.daily);
   const hourly = useSelector((state) => state.hourly);
 
+  console.log(hourly);
+
   const getTimefromUnix = (arg) => {
     const date = new Date(arg * 1000);
     return date.getDate() + " " + shortMonthName[date.getMonth()];
@@ -34,8 +36,8 @@ function RightSide() {
       lg={8}
       xl={9}
       container
-      columnSpacing={3}
-      rowSpacing={2}
+      columnSpacing={1}
+      rowSpacing={1}
       height="max-content"
     >
       <Grid item xs={12} sm={12} md={8} lg={12} xl={8}>
@@ -68,9 +70,11 @@ function RightSide() {
                       />
                     }
                     name={getTimefromUnix(e.dt)}
-                    value={`${Math.round(e.temp.day - 273.15)}°/ ${Math.round(
+                    value={`${Math.round(e.temp.day - 273.15)}°C / ${Math.round(
                       e.temp.night - 273.15,
-                    )}°`}
+                    )}°C`}
+                    description={`${e.weather[0].description}`}
+                    type="daily"
                   />
                 ))}
             </Grid>
@@ -99,10 +103,10 @@ function RightSide() {
                           }@2x.png`}
                         />
                       }
-                      name={getTimefromUnix(e.dt)}
-                      value={`${Math.round(e.temp.day - 273.15)}°/ ${Math.round(
-                        e.temp.night - 273.15,
-                      )}°`}
+                      name={new Date(e.dt * 1000).getHours() + ":00"}
+                      value={`${Math.round(e.temp - 273.15)}°C`}
+                      description={`${e.weather[0].description}`}
+                      type="hourly"
                     />
                   ))}
             </Grid>

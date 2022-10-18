@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Typography, Avatar, Stack, Paper, Grid } from "@mui/material";
+import { Typography, Avatar, Stack, Grid } from "@mui/material";
 import { UilBell } from "@iconscout/react-unicons";
 import CitySelect from "../CitySelect";
 import InfoCard from "../InfoCard/InfoCard";
@@ -23,12 +23,10 @@ function LeftSide() {
   const props = useSpring({
     to: { opacity: 1 },
     from: { opacity: 0 },
-    // reset: true,
     delay: 500,
     config: config.molasses,
   });
   const { number } = useSpring({
-    // reset: true,
     from: { number: 0 },
     number: current.temp ? Math.round(current.temp - 273.15) : 0,
     delay: 900,
@@ -38,19 +36,6 @@ function LeftSide() {
   useEffect(() => {
     setInfoData();
   }, [current]);
-
-  // console.log(current.weather[0].icon);
-  // let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-
-  // const date = () => {
-  //   let newDate = new Date();
-  //   let month = monthName[newDate.getMonth()];
-  //   let day = newDate.getDate();
-  //   let year = newDate.getFullYear();
-  //   setCurrentDate(`${month} ${day}, ${year}`);
-  // };
-
-  // let InfoCardDataList = null;
 
   const getTimefromUnix = (arg) => {
     const date = new Date(arg * 1000);
@@ -138,6 +123,7 @@ function LeftSide() {
                     icon={i.icon}
                     name={i.name}
                     value={i.value}
+                    type="current"
                   />
                 ))}
               </Grid>
@@ -162,15 +148,9 @@ function LeftSide() {
                   {currentLocation.data}
                 </Typography>
               )}
-              {/* <br /> */}
               <Typography className="temperature_description" variant="body">
                 {current && current.weather && current.weather[0].description}
               </Typography>
-              {/* <img
-            style={{ marginLeft: "-20px" }}
-            src={`http://openweathermap.org/img/wn/${current && current.weather && current.weather[0].icon
-              }@2x.png`}
-          /> */}
             </Grid>
           )}
         </Grid>
